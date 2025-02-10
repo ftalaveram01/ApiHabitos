@@ -20,8 +20,14 @@ public class HabitoServicesImpl implements HabitoServices{
 
 	@Override
 	public Long create(Habito habito) {
-		// TODO Auto-generated method stub
-		return null;
+
+		if(habito.getId() != null) {
+			throw new IllegalStateException("Para crear un habito el id debe de ser null");
+		}
+		
+		Habito habitoCreado = habitoRepository.save(habito);
+		
+		return habitoCreado.getId();
 	}
 
 	@Override
@@ -31,13 +37,24 @@ public class HabitoServicesImpl implements HabitoServices{
 
 	@Override
 	public void update(Habito habito) {
-		// TODO Auto-generated method stub
+		
+		if(!habitoRepository.existsById(habito.getId())) {
+			throw new IllegalStateException("El habito con id [" + habito.getId() + "] no existe.");
+		}
+		
+		habitoRepository.save(habito);
 		
 	}
 
+	//TODO --> Mirar el caso de que el habito pertenezca al usuario, no a cualquiera como ahora
 	@Override
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
+		
+		if(!habitoRepository.existsById(id)) {
+			throw new IllegalStateException("El habito con id [" + id + "] no existe.");
+		}
+		
+		habitoRepository.deleteById(id);
 		
 	}
 
