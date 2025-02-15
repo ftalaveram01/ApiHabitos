@@ -13,14 +13,25 @@ public class UsuarioServicesImpl implements UsuarioServices{
 
 	private UsuarioRepository usuarioRepository;
 	
-	public UsuarioServicesImpl(UsuarioRepository usuarioRepository) {
+	private PasswordServicesImpl passwordServicesImpl;
+	
+	public UsuarioServicesImpl(UsuarioRepository usuarioRepository, PasswordServicesImpl passwordServicesImpl) {
 		this.usuarioRepository = usuarioRepository;
+		this.passwordServicesImpl = passwordServicesImpl;
 	}
 	
 	@Override
 	public Long create(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
+
+		if(usuario.getId() != null) {
+			throw new IllegalStateException("No se puede crear un usuario con id distinto de null");
+		}
+		
+		usuario.setPassword(passwordServicesImpl.ecryptPassword(usuario.getPassword()));
+		
+		Usuario usuarioCreado = usuarioRepository.save(usuario);
+		
+		return usuarioCreado.getId();
 	}
 
 	@Override

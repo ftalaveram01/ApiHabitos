@@ -2,14 +2,18 @@ package com.ftalaveram.apihabitos.presentation.restcontrollers;
 
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import com.ftalaveram.apihabitos.business.model.Habito;
 import com.ftalaveram.apihabitos.business.model.Usuario;
 import com.ftalaveram.apihabitos.business.services.UsuarioServices;
+import com.ftalaveram.apihabitos.presentation.config.PresentationException;
 
 @RestController
 @RequestMapping("/rest/usuarios")
@@ -32,6 +36,19 @@ public class UsuarioController {
 		}
 		
 		return optional.get();
+	}
+	
+	public ResponseEntity<String> createUsuario(@RequestBody Usuario usuario, UriComponentsBuilder ucb){
+		
+		Long id = usuario.getId();
+		
+		try {
+			id = usuarioServices.create(usuario);
+		}catch (IllegalStateException ise) {
+			throw new PresentationException(ise.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return ResponseEntity.created(ucb.path("/rest/usuarios/{id}").build(id)).build();
 	}
 	
 }
