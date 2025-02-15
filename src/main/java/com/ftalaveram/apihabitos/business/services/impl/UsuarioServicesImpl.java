@@ -15,9 +15,9 @@ public class UsuarioServicesImpl implements UsuarioServices{
 	
 	private PasswordServicesImpl passwordServicesImpl;
 	
-	public UsuarioServicesImpl(UsuarioRepository usuarioRepository, PasswordServicesImpl passwordServicesImpl) {
+	public UsuarioServicesImpl(UsuarioRepository usuarioRepository) {
 		this.usuarioRepository = usuarioRepository;
-		this.passwordServicesImpl = passwordServicesImpl;
+		this.passwordServicesImpl = new PasswordServicesImpl();
 	}
 	
 	@Override
