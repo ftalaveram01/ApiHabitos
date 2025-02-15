@@ -23,13 +23,11 @@ public class HabitoController {
 	
 	@GetMapping
 	public List<Habito> getAll(){
-		//System.out.println("GET ALL HA SIDO LLAMADO");
 		return habitoServices.getAll();
 	}
 	
 	@GetMapping("/{id}")
 	public Habito getHabito(@PathVariable Long id) throws Exception{
-		System.out.println("GET HABITO HA SIDO LLAMADO");
 		
 		Optional<Habito> optional = habitoServices.read(id);
 		
