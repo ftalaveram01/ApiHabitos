@@ -39,7 +39,7 @@ public class UsuarioController {
 		return optional.get();
 	}
 	
-	@PostMapping
+	@PostMapping("/register")
 	public ResponseEntity<String> createUsuario(@RequestBody Usuario usuario, UriComponentsBuilder ucb){
 		
 		Long id = usuario.getId();
@@ -52,12 +52,18 @@ public class UsuarioController {
 		
 		return ResponseEntity.created(ucb.path("/rest/usuarios/{id}").build(id)).build();
 	}
-	public Usuario getUsuario(@RequestParam(required = true)String email, String password) {
+	
+	@GetMapping("/login")
+	public Usuario login(@RequestParam(required = true)String email, String password) throws Exception {
+		return usuarioServices.login(email, password).get();
+	}
+	
+	public ResponseEntity<String> register(@RequestBody(required = true) Usuario usuario) throws Exception{
 		
+		usuarioServices.register(usuario);
 		
-		
-		
-		return null;
+		// TODO: cambiar el return a algo real
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
 }

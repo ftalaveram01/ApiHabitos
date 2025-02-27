@@ -67,7 +67,13 @@ public class UsuarioServicesImpl implements UsuarioServices{
 
 	@Override
 	public Optional<Usuario> login(String email, String password) {
-		// TODO Auto-generated method stub
+		
+		Optional<Usuario> usuarioLogin = usuarioRepository.findByEmail(email);
+		
+		if(!usuarioLogin.isEmpty() && passwordServicesImpl.verifyPassword(password, usuarioLogin.get().getPassword())) {
+			return usuarioLogin;
+		}
+		
 		return Optional.empty();
 	}
 
