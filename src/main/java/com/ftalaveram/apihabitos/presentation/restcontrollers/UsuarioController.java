@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftalaveram.apihabitos.business.model.Usuario;
@@ -22,7 +23,6 @@ public class UsuarioController {
 	
 	@GetMapping("/{id}")
 	public Usuario getUsuario(@PathVariable Long id) throws Exception{
-		System.out.println("GET HABITO HA SIDO LLAMADO");
 		
 		Optional<Usuario> optional = usuarioServices.read(id);
 		
@@ -31,6 +31,14 @@ public class UsuarioController {
 		}
 		
 		return optional.get();
+	}
+	
+	public Usuario getUsuario(@RequestParam(required = true)String email, String password) {
+		
+		
+		
+		
+		return null;
 	}
 	
 }

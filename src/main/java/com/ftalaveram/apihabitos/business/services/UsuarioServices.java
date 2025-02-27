@@ -14,4 +14,8 @@ public interface UsuarioServices {
 	
 	void delete(Long id);
 	
+	Long register(Usuario usuario) throws Exception;
+	
+	Optional<Usuario> login(String email, String password) throws Exception;
+	
 }
