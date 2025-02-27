@@ -51,4 +51,30 @@ public class UsuarioServicesImpl implements UsuarioServices{
 		
 	}
 
+	@Override
+	public Long register(Usuario usuario) throws Exception{
+		
+		if(usuario.getId() != null) {
+			throw new IllegalStateException();
+		}
+		
+		usuario.setPassword("");
+		
+		usuarioRepository.save(usuario);
+		
+		return null;
+	}
+
+	@Override
+	public Optional<Usuario> login(String email, String password) {
+		
+		Optional<Usuario> usuarioLogin = usuarioRepository.findByEmail(email);
+		
+		if(!usuarioLogin.isEmpty() && passwordServicesImpl.verifyPassword(password, usuarioLogin.get().getPassword())) {
+			return usuarioLogin;
+		}
+		
+		return Optional.empty();
+	}
+
 }
