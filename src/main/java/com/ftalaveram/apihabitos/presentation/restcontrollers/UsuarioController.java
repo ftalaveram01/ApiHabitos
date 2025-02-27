@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -28,7 +29,6 @@ public class UsuarioController {
 	
 	@GetMapping("/{id}")
 	public Usuario getUsuario(@PathVariable Long id) throws Exception{
-		System.out.println("GET HABITO HA SIDO LLAMADO");
 		
 		Optional<Usuario> optional = usuarioServices.read(id);
 		
@@ -51,6 +51,13 @@ public class UsuarioController {
 		}
 		
 		return ResponseEntity.created(ucb.path("/rest/usuarios/{id}").build(id)).build();
+	}
+	public Usuario getUsuario(@RequestParam(required = true)String email, String password) {
+		
+		
+		
+		
+		return null;
 	}
 	
 }
