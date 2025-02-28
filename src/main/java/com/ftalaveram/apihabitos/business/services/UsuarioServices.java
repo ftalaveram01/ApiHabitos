@@ -16,6 +16,6 @@ public interface UsuarioServices {
 	
 	Long register(Usuario usuario) throws Exception;
 	
-	Optional<Usuario> login(String email, String password) throws Exception;
+	Optional<Usuario> login(String email, String password);
 	
 }
