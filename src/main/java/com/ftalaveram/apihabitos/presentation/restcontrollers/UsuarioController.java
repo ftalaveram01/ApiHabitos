@@ -3,6 +3,7 @@ package com.ftalaveram.apihabitos.presentation.restcontrollers;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,12 +55,16 @@ public class UsuarioController {
 	}
 	
 	@GetMapping("/login")
-	public ResponseEntity<Optional<Usuario>> login(@RequestParam(required = true)String email, @RequestParam(required = true)String password){
+	public ResponseEntity<Usuario> login(@RequestParam(required = true)String email, @RequestParam(required = true)String password) throws PresentationException{
 		
-		Optional<Usuario> usuario = usuarioServices.login(email, password);
+		Optional<Usuario> optionalUsuario = usuarioServices.login(email, password);
 		
-		if(usuario.isEmpty()) {
-			throw new IllegalStateException("Login incorrecto.");
+		Usuario usuario;
+		
+		try {
+			usuario = optionalUsuario.get();
+		}catch(Exception e) {
+			throw new PresentationException("Login incorrecto", HttpStatus.NOT_FOUND);
 		}
 		
 		return ResponseEntity.ok(usuario);
