@@ -54,8 +54,15 @@ public class UsuarioController {
 	}
 	
 	@GetMapping("/login")
-	public Usuario login(@RequestParam(required = true)String email, String password) throws Exception {
-		return usuarioServices.login(email, password).get();
+	public ResponseEntity<Optional<Usuario>> login(@RequestParam(required = true)String email, @RequestParam(required = true)String password){
+		
+		Optional<Usuario> usuario = usuarioServices.login(email, password);
+		
+		if(usuario.isEmpty()) {
+			throw new IllegalStateException("Login incorrecto.");
+		}
+		
+		return ResponseEntity.ok(usuario);
 	}
 	
 	public ResponseEntity<String> register(@RequestBody(required = true) Usuario usuario) throws Exception{
