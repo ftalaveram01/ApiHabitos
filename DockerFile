@@ -1,5 +1,5 @@
 # Usar una imagen base de Java
-FROM openjdk:23-jdk-alpine
+FROM openjdk:17-jdk-alpine
 
 # Crear un directorio para la aplicación
 WORKDIR /app
