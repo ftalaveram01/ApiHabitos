@@ -52,17 +52,17 @@ public class UsuarioServicesImpl implements UsuarioServices{
 	}
 
 	@Override
-	public Long register(Usuario usuario) throws Exception{
+	public Long register(Usuario usuario) throws IllegalStateException{
 		
-		if(usuario.getId() != null) {
+		if(usuario.getId() != null || usuarioRepository.findByEmail(usuario.getEmail()).isEmpty()) {
 			throw new IllegalStateException();
 		}
 		
-		usuario.setPassword("");
+		usuario.setPassword(passwordServicesImpl.ecryptPassword(usuario.getPassword()));
 		
-		usuarioRepository.save(usuario);
+		Usuario usuarioCreado = usuarioRepository.save(usuario);
 		
-		return null;
+		return usuarioCreado.getId();
 	}
 
 	@Override

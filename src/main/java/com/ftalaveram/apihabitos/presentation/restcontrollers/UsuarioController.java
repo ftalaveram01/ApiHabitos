@@ -3,7 +3,6 @@ package com.ftalaveram.apihabitos.presentation.restcontrollers;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,7 +47,7 @@ public class UsuarioController {
 		try {
 			id = usuarioServices.create(usuario);
 		}catch (IllegalStateException ise) {
-			throw new PresentationException(ise.getMessage(), HttpStatus.BAD_REQUEST);
+			throw new PresentationException("Registro incorrecto", HttpStatus.BAD_REQUEST);
 		}
 		
 		return ResponseEntity.created(ucb.path("/rest/usuarios/{id}").build(id)).build();
