@@ -1,14 +1,13 @@
-# Usar una imagen base de Java
-FROM openjdk:17-jdk-alpine
-
-# Crear un directorio para la aplicación
+# Primera etapa: Construir el archivo .jar
+FROM maven:3.8.6-openjdk-17 AS build
 WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# Copiar el archivo JAR de la aplicación
-COPY target/*.jar app.jar
-
-# Exponer el puerto en el que corre la aplicación
+# Segunda etapa: Crear la imagen final
+FROM openjdk:17-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-
-# Comando para ejecutar la aplicación
 ENTRYPOINT ["java", "-jar", "app.jar"]
