@@ -3,6 +3,7 @@ package com.ftalaveram.apihabitos.presentation.restcontrollers;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ public class HabitoController {
 		this.habitoServices = habitoServices;
 	}
 	
+	@CrossOrigin(origins = "*")
 	@GetMapping
 	public List<Habito> getAll(){
 		return habitoServices.getAll();
