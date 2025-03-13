@@ -21,9 +21,13 @@
   "type": "module",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "mysql2": "3.13.0"
+    "cors": "2.8.5",
+    "express": "4.21.2",
+    "mysql2": "3.13.0",
+    "zod": "3.24.2"
   }
 }

@@ -4,7 +4,7 @@ const connection = ConnectionDB.connect()
 
 export class Usuario {
     async login(email, password) {
-        const [users] = await connection.execute('SELECT * FROM usuario WHERE email = ? AND password = ?', [email, password]);
+        const [users] = await connection.execute('SELECT * FROM usuario WHERE email = ? AND contra = ?', [email, password]);
 
         if (users.length === 0) {
             throw new Error('Usuario no encontrado');
@@ -15,13 +15,13 @@ export class Usuario {
 
     async register(nombre, email, password) {
 
-        const user =  await this.getUserByEmail(email);
+        const user = await this.getUserByEmail(email);
 
         if (user) {
             throw new Error('El email ya está en uso');
         }
 
-        const [result] = await connection.execute('INSERT INTO usuario (nombre, email, password) VALUES (?, ?)', [nombre, email, password]);
+        const [result] = await connection.execute('INSERT INTO usuario (nombre, email, contra) VALUES (?, ?)', [nombre, email, password]);
 
         if (result.affectedRows === 0) {
             throw new Error('No se pudo crear el usuario');
@@ -30,7 +30,7 @@ export class Usuario {
         return result;
     }
 
-    
+
 }
 
 const getUserByEmail = async (email) => {

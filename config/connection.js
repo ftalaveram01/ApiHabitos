@@ -9,7 +9,7 @@ export class ConnectionDB {
             password: process.env.DB_PASSWORD,
             database: process.env.DB_NAME,
         };
-        
+
         const connectionString = dbConfig
 
         return await mysql.createConnection(connectionString);

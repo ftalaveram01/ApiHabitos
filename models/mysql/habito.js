@@ -29,7 +29,7 @@ export class Habito {
     }
 
     async getHabitosUsuario(idUsuario) {
-        const [habitos] = await connection.execute('SELECT * FROM habitos WHERE idUsuario = ?', [idUsuario]);
+        const [habitos] = await connection.execute('SELECT * FROM habitos WHERE usuario_id = ?', [idUsuario]);
         return habitos;
     }
 }
