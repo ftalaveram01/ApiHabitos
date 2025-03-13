@@ -1,0 +1,26 @@
+{
+  "name": "apihabitos",
+  "version": "1.0.0",
+  "description": "API REST de Habitos y Usuarios desarrollada en JavaScript y Nodejs",
+  "keywords": [
+    "api",
+    "habtitos",
+    "apirest",
+    "apihabitos"
+  ],
+  "homepage": "https://github.com/ftalaveram01/ApiHabitos#readme",
+  "bugs": {
+    "url": "https://github.com/ftalaveram01/ApiHabitos/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ftalaveram01/ApiHabitos.git"
+  },
+  "license": "ISC",
+  "author": "Fernando",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
