@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise';
 
-export class ConnectionDB {
-    async connect() {
+export default class ConnectionDB {
+    static connect = async () => {
         const dbConfig = {
             host: process.env.DB_HOST,
             port: process.env.DB_PORT,

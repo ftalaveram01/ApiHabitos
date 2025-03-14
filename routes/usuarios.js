@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { UsuariosController } from "../controllers/usuarios.js";
 
-export const createUsuariosRouter = ({ userModel }) => {
+export const createUsuariosRouter = ({ usuarioModel }) => {
+    console.log('userModel', usuarioModel)
     const userRouter = Router()
 
-    const usuariosController = new UsuariosController({ userModel })
+    const usuariosController = new UsuariosController({ usuarioModel })
 
     // AUTH
     userRouter.get('/login', usuariosController.loginUser)

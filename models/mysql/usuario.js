@@ -1,10 +1,22 @@
-import ConnectionDB from "../../config/connection.js";
+import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const connection = ConnectionDB.connect()
+const dbConfig = {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    port: process.env.DB_PORT,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+};
 
-export class Usuario {
-    async login(email, password) {
-        const [users] = await connection.execute('SELECT * FROM usuario WHERE email = ? AND contra = ?', [email, password]);
+const connectionString = dbConfig
+
+const connection = await mysql.createConnection(connectionString);
+
+export class UsuarioModel {
+    static async login({ email, password }) {
+        const [users] = await connection.query('SELECT * FROM usuario WHERE email = ? AND contra = ?', [email, password]);
 
         if (users.length === 0) {
             throw new Error('Usuario no encontrado');
@@ -13,15 +25,22 @@ export class Usuario {
         return users[0];
     }
 
-    async register(nombre, email, password) {
+    static async register({ input }) {
 
-        const user = await this.getUserByEmail(email);
+        const { nombre, email, password } = input;
+
+        console.log(nombre, email, password);
+
+        const [users] = connection.query('SELECT * FROM usuario WHERE email = ?', [email]);
+        const user = users[0];
+
+        console.log('user', user);
 
         if (user) {
             throw new Error('El email ya está en uso');
         }
 
-        const [result] = await connection.execute('INSERT INTO usuario (nombre, email, contra) VALUES (?, ?)', [nombre, email, password]);
+        const [result] = await connection.query('INSERT INTO usuario (nombre, email, contra) VALUES (?, ?)', [nombre, email, password]);
 
         if (result.affectedRows === 0) {
             throw new Error('No se pudo crear el usuario');
@@ -30,12 +49,8 @@ export class Usuario {
         return result;
     }
 
-
 }
 
-const getUserByEmail = async (email) => {
-    const [users] = await connection.execute('SELECT * FROM usuario WHERE email = ?', [email]);
-    return users[0];
-}
+
 
 

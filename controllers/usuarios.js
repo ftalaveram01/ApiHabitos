@@ -1,14 +1,14 @@
-import { validateUser, validatePartialUser } from "../schemas/usuarios";
+import { validateUser, validatePartialUser } from "../schemas/usuarios.js";
 
 export class UsuariosController {
-    constructor({ usuariosService }) {
-        this.usuariosService = usuariosService;
+    constructor({ usuarioModel }) {
+        this.usuarioModel = usuarioModel
     }
 
     loginUser = async (req, res) => {
         try {
             const { email, password } = req.body;
-            const user = await this.usuariosService.login(email, password);
+            const user = await this.usuarioModel.login(email, password);
             res.status(200).json(user);
         } catch (error) {
             res.status(400).json({ error: error.message });
@@ -17,14 +17,17 @@ export class UsuariosController {
 
     registerUser = async (req, res) => {
         try {
-            const usuario = req.body;
-            const { value: user, error } = validateUser(usuario);
-            if (error) {
-                throw new Error(error);
+            const usuario = validateUser(req.body);
+
+            if (!usuario.success) {
+                res.status(400).json({ error: usuario.error });
+                return;
             }
-            const newUser = await this.usuariosService.createUser(usuario);
+
+            const newUser = await this.usuarioModel.register({ input: usuario.data });
             res.status(201).json(newUser);
         } catch (error) {
+            console.log(error)
             res.status(400).json({ error: error.message });
         }
     }
@@ -33,7 +36,7 @@ export class UsuariosController {
         try {
             const { id } = req.params;
             const usuario = req.body;
-            const updatedUser = await this.usuariosService.updateUser(parseInt(id), usuario);
+            const updatedUser = await this.usuarioModel.updateUser(parseInt(id), usuario);
             res.status(200).json(updatedUser);
         } catch (error) {
             res.status(400).json({ error: error.message });
@@ -43,7 +46,7 @@ export class UsuariosController {
     deleteUser = async (req, res) => {
         try {
             const { id } = req.params;
-            await this.usuariosService.deleteUser(parseInt(id));
+            await this.usuarioModel.deleteUser(parseInt(id));
             res.status(204).end();
         } catch (error) {
             res.status(400).json({ error: error.message });
