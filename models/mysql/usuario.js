@@ -16,7 +16,7 @@ const connection = await mysql.createConnection(connectionString);
 
 export class UsuarioModel {
     static async login({ email, password }) {
-        const [users] = await connection.query('SELECT * FROM usuario WHERE email = ? AND contra = ?', [email, password]);
+        const [users] = await connection.query('SELECT * FROM usuarios WHERE email = ? AND contra = ?', [email, password]);
 
         if (users.length === 0) {
             throw new Error('Usuario no encontrado');
@@ -29,9 +29,7 @@ export class UsuarioModel {
 
         const { nombre, email, password } = input;
 
-        console.log(nombre, email, password);
-
-        const [users] = connection.query('SELECT * FROM usuario WHERE email = ?', [email]);
+        const [users] = await connection.execute('SELECT * FROM usuarios WHERE email = ?', [email]);
         const user = users[0];
 
         console.log('user', user);
@@ -40,7 +38,7 @@ export class UsuarioModel {
             throw new Error('El email ya está en uso');
         }
 
-        const [result] = await connection.query('INSERT INTO usuario (nombre, email, contra) VALUES (?, ?)', [nombre, email, password]);
+        const [result] = await connection.query('INSERT INTO usuarios (nombre, email, contra) VALUES (?, ?, ?)', [nombre, email, password]);
 
         if (result.affectedRows === 0) {
             throw new Error('No se pudo crear el usuario');
