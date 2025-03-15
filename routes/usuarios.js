@@ -2,7 +2,6 @@ import { Router } from "express";
 import { UsuariosController } from "../controllers/usuarios.js";
 
 export const createUsuariosRouter = ({ usuarioModel }) => {
-    console.log('userModel', usuarioModel)
     const userRouter = Router()
 
     const usuariosController = new UsuariosController({ usuarioModel })
