@@ -1,5 +1,7 @@
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
+
 dotenv.config();
 
 const dbConfig = {
@@ -12,14 +14,23 @@ const dbConfig = {
 
 const connectionString = dbConfig
 
-const connection = await mysql.createConnection(connectionString);
+const connection = await mysql.createConnection(connectionString)
 
 export class UsuarioModel {
     static async login({ email, password }) {
-        const [users] = await connection.query('SELECT * FROM usuarios WHERE email = ? AND contra = ?', [email, password]);
+
+        const [users] = await connection.execute('SELECT * FROM usuarios WHERE email = ?', [email]);
 
         if (users.length === 0) {
-            throw new Error('Usuario no encontrado');
+            throw new Error('Usuario o contraseña incorrectos');
+        }
+
+        const user = users[0];
+
+        const isPasswordValid = await bcrypt.compare(password, user.contra);
+
+        if (!isPasswordValid) {
+            throw new Error('Usuario o contraseña incorrectos');
         }
 
         return users[0];
@@ -38,7 +49,9 @@ export class UsuarioModel {
             throw new Error('El email ya está en uso');
         }
 
-        const [result] = await connection.query('INSERT INTO usuarios (nombre, email, contra) VALUES (?, ?, ?)', [nombre, email, password]);
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const [result] = await connection.query('INSERT INTO usuarios (nombre, email, contra) VALUES (?, ?, ?)', [nombre, email, hashedPassword]);
 
         if (result.affectedRows === 0) {
             throw new Error('No se pudo crear el usuario');

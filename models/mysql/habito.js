@@ -1,34 +1,42 @@
-import ConnectionDB from "../../config/connection.js";
+import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
+dotenv.config()
 
-const connection = ConnectionDB.connect()
+const dbConfig = {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    port: process.env.DB_PORT,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+}
 
-export class Habito {
-    async getHabitos() {
-        const [habitos] = await connection.execute('SELECT * FROM habitos');
-        return habitos;
-    }
+const connectionString = dbConfig
 
-    async getHabito(id) {
-        const [habito] = await connection.execute('SELECT * FROM habitos WHERE id = ?', [id]);
+const connection = await mysql.createConnection(connectionString)
+
+export class HabitoModel {
+
+    static async getHabito({id, idUsuario}) {
+        const [habito] = await connection.execute('SELECT * FROM habitos WHERE id = ? && usuario_id = ?', [id, idUsuario]);
         return habito[0];
     }
 
-    async createHabito(nombre, descripcion, usuario_id, creadoEn) {
+    static async createHabito({nombre, descripcion, usuario_id, creadoEn}) {
         const [result] = await connection.execute('INSERT INTO habitos (nombre, descripcion, usuario_id, creado_en) VALUES (?, ?, ?, ?)', [nombre, descripcion, usuario_id, creadoEn]);
         return result;
     }
 
-    async updateHabito(id, nombre, descripcion) {
+    static async updateHabito({id, nombre, descripcion}) {
         const [result] = await connection.execute('UPDATE habitos SET nombre = ?, descripcion = ? WHERE id = ?', [nombre, descripcion, id]);
         return result;
     }
 
-    async deleteHabito(id) {
+    static async deleteHabito({id}) {
         const [result] = await connection.execute('DELETE FROM habitos WHERE id = ?', [id]);
         return result;
     }
 
-    async getHabitosUsuario(idUsuario) {
+    static async getHabitosUsuario({idUsuario}) {
         const [habitos] = await connection.execute('SELECT * FROM habitos WHERE usuario_id = ?', [idUsuario]);
         return habitos;
     }

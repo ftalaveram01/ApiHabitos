@@ -8,7 +8,9 @@ export class UsuariosController {
     loginUser = async (req, res) => {
         try {
             const { email, password } = req.body;
-            const user = await this.usuarioModel.login(email, password);
+
+            const user = await this.usuarioModel.login({email, password});
+
             res.status(200).json(user);
         } catch (error) {
             res.status(400).json({ error: error.message });
