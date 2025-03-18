@@ -46,9 +46,7 @@ export class HabitoModel {
     }
 
     static async getHabitosRecomendados() {
-        console.log('getHabitosRecomendados');
         const [habitoPublico] = await connection.execute('SELECT * FROM habitos_publicos');
-        console.log(habitoPublico);
-        return []
+        return habitoPublico;
     }
 }

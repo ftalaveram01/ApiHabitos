@@ -6,11 +6,6 @@ export const createHabitosRouter = ({ habitoModel }) => {
 
     const habitosController = new HabitosController({ habitoModel })
 
-    habitoRouter.use((req, res, next) => {
-        console.log(`Solicitud recibida: ${req.method} ${req.url}`);
-        next();
-    });
-
     habitoRouter.get('/recomendados', habitosController.getHabitosRecomendados)
     habitoRouter.get('/usuario/:idUsuario', habitosController.getHabitosUsuario)
     habitoRouter.get('/:id', habitosController.getHabito)
