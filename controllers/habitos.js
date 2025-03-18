@@ -58,4 +58,13 @@ export class HabitosController {
             res.status(400).json({ error: error.message });
         }
     }
+
+    getHabitosRecomendados = async (req, res) => {
+        try {
+            const habitos = await this.habitoModel.getHabitosRecomendados({});
+            res.status(200).json(habitos)
+        } catch (error) {
+            res.status(error.status).json({ error: error.message })
+        }
+    }
 }

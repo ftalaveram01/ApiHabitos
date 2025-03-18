@@ -11,6 +11,7 @@ export const createHabitosRouter = ({ habitoModel }) => {
     habitoRouter.put('/:id', habitosController.updateHabito)
     habitoRouter.delete('/:id', habitosController.deleteHabito)
     habitoRouter.get('/usuario/:idUsuario', habitosController.getHabitosUsuario)
+    habitoRouter.get('/recomendados', habitosController.getHabitosRecomendados)
 
     return habitoRouter
 }

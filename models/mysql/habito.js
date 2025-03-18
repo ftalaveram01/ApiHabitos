@@ -16,29 +16,33 @@ const connection = await mysql.createConnection(connectionString)
 
 export class HabitoModel {
 
-    static async getHabito({id, idUsuario}) {
+    static async getHabito({ id, idUsuario }) {
         const [habito] = await connection.execute('SELECT * FROM habitos WHERE id = ? && usuario_id = ?', [id, idUsuario]);
         return habito[0];
     }
 
-    static async createHabito({nombre, descripcion, usuario_id, creadoEn}) {
+    static async createHabito({ nombre, descripcion, usuario_id, creadoEn }) {
         const [result] = await connection.execute('INSERT INTO habitos (nombre, descripcion, usuario_id, creado_en) VALUES (?, ?, ?, ?)', [nombre, descripcion, usuario_id, creadoEn]);
         return result;
     }
 
-    static async updateHabito({id, nombre, descripcion}) {
+    static async updateHabito({ id, nombre, descripcion }) {
         const [result] = await connection.execute('UPDATE habitos SET nombre = ?, descripcion = ? WHERE id = ?', [nombre, descripcion, id]);
         return result;
     }
 
-    static async deleteHabito({id}) {
+    static async deleteHabito({ id }) {
         const [result] = await connection.execute('DELETE FROM habitos WHERE id = ?', [id]);
         return result;
     }
 
-    static async getHabitosUsuario({idUsuario}) {
+    static async getHabitosUsuario({ idUsuario }) {
         const [habitos] = await connection.execute('SELECT * FROM habitos WHERE usuario_id = ?', [idUsuario]);
         return habitos;
+    }
+
+    static async getHabitosRecomendados({ }) {
+        return await connection.query('SELECT * FROM habitos_publicos', []);
     }
 }
 
