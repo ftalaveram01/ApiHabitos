@@ -20,6 +20,8 @@ export class HabitoModel {
 
     static async getHabito({ id, idUsuario }) {
         const [habito] = await connection.execute('SELECT * FROM habitos WHERE id = ? && usuario_id = ?', [id, idUsuario]);
+        const [habitoPublico] = await connection.execute('SELECT * FROM habitos_publicos');
+        console.log(habitoPublico);
         return habito[0];
     }
 
@@ -44,9 +46,9 @@ export class HabitoModel {
     }
 
     static async getHabitosRecomendados() {
-        const [habitos] = await connection.query('SELECT * FROM habitos_publicos');
-
-        return habitos;
+        console.log('getHabitosRecomendados');
+        const [habitoPublico] = await connection.execute('SELECT * FROM habitos_publicos');
+        console.log(habitoPublico);
+        return []
     }
 }
-
