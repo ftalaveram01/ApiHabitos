@@ -10,7 +10,6 @@ export class HabitosController {
             const { id } = req.params;
             const { idUsuario } = req.body;
 
-            console.log(id, idUsuario);
             const habito = await this.habitoModel.getHabito({ id, idUsuario });
             res.status(200).json(habito);
         } catch (error) {
@@ -61,7 +60,10 @@ export class HabitosController {
 
     getHabitosRecomendados = async (req, res) => {
         try {
-            const habitos = await this.habitoModel.getHabitosRecomendados({});
+            console.log(req)
+            console.log('entro')
+            const habitos = await this.habitoModel.getHabitosRecomendados();
+            console.log('salio')
             res.status(200).json(habitos)
         } catch (error) {
             res.status(error.status).json({ error: error.message })

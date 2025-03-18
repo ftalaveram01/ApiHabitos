@@ -8,6 +8,8 @@ const dbConfig = {
     port: process.env.DB_PORT,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
+    waitForConnections: true,
+    connectTimeout: 10000,
 }
 
 const connectionString = dbConfig
@@ -41,8 +43,10 @@ export class HabitoModel {
         return habitos;
     }
 
-    static async getHabitosRecomendados({ }) {
-        return await connection.query('SELECT * FROM habitos_publicos', []);
+    static async getHabitosRecomendados() {
+        const [habitos] = await connection.query('SELECT * FROM habitos_publicos');
+
+        return habitos;
     }
 }
 

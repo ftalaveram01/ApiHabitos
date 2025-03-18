@@ -60,6 +60,23 @@ export class UsuarioModel {
         return result;
     }
 
+    static async updateUser(id, { nombre, email, password }) {
+
+        const [users] = await connection.execute('SELECT * FROM usuarios WHERE email = ?', [email]);
+        const user = users[0];
+
+        console.log('user', user);
+
+        if (!user) {
+            throw new Error('El usuario no existe');
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const [usuarioActualizado] = await connection.execute('UPDATE usuarios SET nombre = ?, email = ?, contra = ? WHERE id = ?', [nombre, email, hashedPassword, id]);
+        return usuarioActualizado;
+    }
+
 }
 
 

@@ -9,7 +9,7 @@ export class UsuariosController {
         try {
             const { email, password } = req.body;
 
-            const user = await this.usuarioModel.login({email, password});
+            const user = await this.usuarioModel.login({ email, password });
 
             res.status(200).json(user);
         } catch (error) {
@@ -37,8 +37,8 @@ export class UsuariosController {
     updateUser = async (req, res) => {
         try {
             const { id } = req.params;
-            const usuario = req.body;
-            const updatedUser = await this.usuarioModel.updateUser(parseInt(id), usuario);
+            const { nombre, email, password } = req.body;
+            const updatedUser = await this.usuarioModel.updateUser(parseInt(id), { nombre, email, password });
             res.status(200).json(updatedUser);
         } catch (error) {
             res.status(400).json({ error: error.message });
