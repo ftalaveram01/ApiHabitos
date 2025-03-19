@@ -9,7 +9,10 @@ import 'dotenv/config.js';
 const app = express();
 app.use(json());
 app.use(corsMiddleware());
-app.disable('x-powered-by');
+app.use((req, res, next) => {
+    res.removeHeader('X-Powered-By')
+    next()
+})
 
 app.use('/usuarios', createUsuariosRouter({ usuarioModel: UsuarioModel }));
 app.use('/habitos', createHabitosRouter({ habitoModel: HabitoModel }));
