@@ -7,7 +7,8 @@ export class UsuariosController {
 
     loginUser = async (req, res) => {
         try {
-            const { email, password } = req.body;
+            const email = req.query.email;
+            const password = req.query.password;
 
             const user = await this.usuarioModel.login({ email, password });
 
