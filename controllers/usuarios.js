@@ -1,4 +1,5 @@
 import { validateUser, validatePartialUser } from "../schemas/usuarios.js";
+import jwt from 'jsonwebtoken';
 
 export class UsuariosController {
     constructor({ usuarioModel }) {
@@ -12,7 +13,9 @@ export class UsuariosController {
 
             const user = await this.usuarioModel.login({ email, password });
 
-            res.status(200).json(user);
+            const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '100h' });
+            
+            res.status(200).json({ token });
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
@@ -53,6 +56,38 @@ export class UsuariosController {
             res.status(204).end();
         } catch (error) {
             res.status(400).json({ error: error.message });
+        }
+    }
+
+    verifyUserToken = async (req, res) => {
+        try {
+            const token = req.headers.authorization?.split(' ')[1];
+            
+            if (!token) {
+                return res.status(401).json({ valid: false, message: 'No token provided' });
+            }
+    
+            // Verificamos el token primero
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+            // Respuesta exitosa
+            res.json({ 
+                valid: true
+            });
+            
+        } catch (error) {
+            // Manejo de diferentes tipos de errores
+            if (error instanceof jwt.TokenExpiredError) {
+                return res.status(401).json({ valid: false, message: 'Token expired' });
+            }
+            
+            if (error instanceof jwt.JsonWebTokenError) {
+                return res.status(401).json({ valid: false, message: 'Invalid token' });
+            }
+            
+            // Error general del servidor
+            console.error('Error en validateToken:', error);
+            res.status(500).json({ valid: false, message: 'Internal server error' });
         }
     }
 }

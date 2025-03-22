@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { UsuariosController } from "../controllers/usuarios.js";
-import { verifyToken } from "../middlewares/userVerify.js";
 
 export const createUsuariosRouter = ({ usuarioModel }) => {
     const userRouter = Router()
@@ -12,8 +11,10 @@ export const createUsuariosRouter = ({ usuarioModel }) => {
     userRouter.post('/register', usuariosController.registerUser)
 
     // USER POSIBLE ACTIONS
-    userRouter.put('/:id', verifyToken, usuariosController.updateUser)
-    userRouter.delete('/:id', verifyToken, usuariosController.deleteUser)
+    userRouter.put('/:id', usuariosController.updateUser)
+    userRouter.delete('/:id', usuariosController.deleteUser)
+
+    userRouter.get('/verifyaccess', usuariosController.verifyUserToken)
 
     return userRouter
 }
