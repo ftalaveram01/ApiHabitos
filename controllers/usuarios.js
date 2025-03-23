@@ -68,33 +68,29 @@ export class UsuariosController {
 
     verifyUserToken = async (req, res) => {
         try {
-            const token = req.headers.authorization?.split(' ')[1];
+            const token = req.cookies.token;
 
             if (!token) {
                 return res.status(401).json({ valid: false, message: 'No token provided' });
             }
 
-            // Verificamos el token primero
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-            // Respuesta exitosa
             res.json({
-                valid: true
+                isAuthenticated: true
             });
 
         } catch (error) {
-            // Manejo de diferentes tipos de errores
             if (error instanceof jwt.TokenExpiredError) {
-                return res.status(401).json({ valid: false, message: 'Token expired' });
+                return res.status(401).json({ isAuthenticated: false, message: 'Token expired' });
             }
 
             if (error instanceof jwt.JsonWebTokenError) {
-                return res.status(401).json({ valid: false, message: 'Invalid token' });
+                return res.status(401).json({ isAuthenticated: false, message: 'Invalid token' });
             }
 
-            // Error general del servidor
             console.error('Error en validateToken:', error);
-            res.status(500).json({ valid: false, message: 'Internal server error' });
+            res.status(500).json({ isAuthenticated: false, message: 'Internal server error' });
         }
     }
 }

@@ -4,10 +4,12 @@ import { createHabitosRouter } from './routes/habitos.js';
 import { corsMiddleware } from './middlewares/cors.js';
 import { UsuarioModel } from './models/mysql/usuario.js'
 import { HabitoModel } from './models/mysql/habito.js'
+import cookieParser from 'cookie-parser';
 import 'dotenv/config.js';
 
 const app = express();
 app.use(json());
+app.use(cookieParser());
 app.use(corsMiddleware());
 app.use((req, res, next) => {
     res.removeHeader('X-Powered-By')
