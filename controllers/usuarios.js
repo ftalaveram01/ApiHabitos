@@ -12,13 +12,11 @@ export class UsuariosController {
             const password = req.body.password;
 
             const user = await this.usuarioModel.login({ email, password });
-            const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '100h' });
+            const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
 
             res.status(200).cookie("token", token, {
                 httpOnly: true,
-                secure: true,
-                sameSite: "Strict",
-                maxAge: 1000 * 60 * 60 * 100
+                maxAge: 1000 * 60 * 60 * 200
             }).json({
                 success: true,
                 user: { id: user._id, email: user.email }
@@ -41,6 +39,14 @@ export class UsuariosController {
             res.status(201).json(newUser);
         } catch (error) {
             console.log(error)
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+    logoutUser = async (req, res) => {
+        try {
+            res.clearCookie('token').status(200).json({ success: true });
+        } catch (error) {
             res.status(400).json({ error: error.message });
         }
     }

@@ -9,6 +9,7 @@ export const createUsuariosRouter = ({ usuarioModel }) => {
     // AUTH
     userRouter.post('/login', usuariosController.loginUser)
     userRouter.post('/register', usuariosController.registerUser)
+    userRouter.get('/logout', usuariosController.logoutUser)
 
     // USER POSIBLE ACTIONS
     userRouter.put('/:id', usuariosController.updateUser)

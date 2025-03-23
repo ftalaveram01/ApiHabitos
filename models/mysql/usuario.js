@@ -34,16 +34,7 @@ export class UsuarioModel {
             throw new Error('Usuario o contraseña incorrectos');
         }
 
-        const token = generateToken(user);
-
-        return {
-            token,
-            user: {
-                id: user.id,
-                nombre: user.nombre,
-                email: user.email
-            }
-        };
+        return user;
     }
 
     static async register({ input }) {
@@ -88,19 +79,3 @@ export class UsuarioModel {
     }
 
 }
-
-const generateToken = (user) => { // Recibe todo el objeto "user"
-    return jwt.sign(
-        {
-            id: user._id,    // Asumiendo que usas MongoDB (_id)
-            email: user.email,
-            name: user.name  // Asegúrate que tu modelo de usuario tenga este campo
-        },
-        process.env.JWT_SECRET,
-        { expiresIn: process.env.JWT_EXPIRES_IN }
-    );
-};
-
-
-
-
