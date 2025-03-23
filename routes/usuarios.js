@@ -7,7 +7,7 @@ export const createUsuariosRouter = ({ usuarioModel }) => {
     const usuariosController = new UsuariosController({ usuarioModel })
 
     // AUTH
-    userRouter.get('/login', usuariosController.loginUser)
+    userRouter.post('/login', usuariosController.loginUser)
     userRouter.post('/register', usuariosController.registerUser)
 
     // USER POSIBLE ACTIONS

@@ -8,14 +8,21 @@ export class UsuariosController {
 
     loginUser = async (req, res) => {
         try {
-            const email = req.query.email;
-            const password = req.query.password;
+            const email = req.body.email;
+            const password = req.body.password;
 
             const user = await this.usuarioModel.login({ email, password });
-
             const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '100h' });
-            
-            res.status(200).json({ token });
+
+            res.status(200).cookie("token", token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: "Strict",
+                maxAge: 1000 * 60 * 60 * 100
+            }).json({
+                success: true,
+                user: { id: user._id, email: user.email }
+            });
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
@@ -62,29 +69,29 @@ export class UsuariosController {
     verifyUserToken = async (req, res) => {
         try {
             const token = req.headers.authorization?.split(' ')[1];
-            
+
             if (!token) {
                 return res.status(401).json({ valid: false, message: 'No token provided' });
             }
-    
+
             // Verificamos el token primero
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
+
             // Respuesta exitosa
-            res.json({ 
+            res.json({
                 valid: true
             });
-            
+
         } catch (error) {
             // Manejo de diferentes tipos de errores
             if (error instanceof jwt.TokenExpiredError) {
                 return res.status(401).json({ valid: false, message: 'Token expired' });
             }
-            
+
             if (error instanceof jwt.JsonWebTokenError) {
                 return res.status(401).json({ valid: false, message: 'Invalid token' });
             }
-            
+
             // Error general del servidor
             console.error('Error en validateToken:', error);
             res.status(500).json({ valid: false, message: 'Internal server error' });
