@@ -8,10 +8,12 @@ export const createHabitosRouter = ({ habitoModel }) => {
 
     habitoRouter.get('/recomendados', habitosController.getHabitosRecomendados)
     habitoRouter.get('/usuario/:idUsuario', habitosController.getHabitosUsuario)
-    habitoRouter.get('/:id', habitosController.getHabito)
-    habitoRouter.post('/', habitosController.createHabito)
-    habitoRouter.put('/:id', habitosController.updateHabito)
-    habitoRouter.delete('/:id', habitosController.deleteHabito)
+
+    // id implicito en el token, no hace falta en la ruta
+    habitoRouter.get('/', habitosController.getHabito) // ❌
+    habitoRouter.post('/', habitosController.createHabito) // ✅
+    habitoRouter.put('/', habitosController.updateHabito) // ❌
+    habitoRouter.delete('/', habitosController.deleteHabito) // ❌
 
 
     return habitoRouter
