@@ -1,4 +1,4 @@
-
+import jwt from 'jsonwebtoken';
 
 export class HabitosController {
     constructor({ habitoModel }) {
@@ -50,11 +50,36 @@ export class HabitosController {
 
     getHabitosUsuario = async (req, res) => {
         try {
-            const { idUsuario } = req.params;
+
+            const token = req.cookies.token;
+
+            if (!token) {
+                res.status(401).json({ valid: 'false', message: 'No token provided' });
+                return;
+            }
+
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+            const idUsuario = decoded.id;
+
             const habitos = await this.habitoModel.getHabitosUsuario({ idUsuario });
-            res.status(200).json(habitos);
+
+            const habitosReducidos = habitos.map(habito => {
+                const { nombre, descripcion, creado_en } = habito;
+                return { nombre, descripcion, creado_en };
+            });
+
+            res.status(200).json(habitosReducidos);
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            if (error instanceof jwt.TokenExpiredError) {
+                return res.status(401).json({ isAuthenticated: false, message: 'Token expired' });
+            }
+
+            if (error instanceof jwt.JsonWebTokenError) {
+                return res.status(401).json({ isAuthenticated: false, message: 'Invalid token' });
+            }
+
+            res.status(500).json({ error: 'Error en el servidor' });
         }
     }
 

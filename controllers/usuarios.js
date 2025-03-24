@@ -97,7 +97,6 @@ export class UsuariosController {
                 return res.status(401).json({ isAuthenticated: false, message: 'Invalid token' });
             }
 
-            console.error('Error en validateToken:', error);
             res.status(500).json({ isAuthenticated: false, message: 'Internal server error' });
         }
     }
