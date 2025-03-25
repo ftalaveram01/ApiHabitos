@@ -21,7 +21,8 @@ export class UsuariosController {
                 maxAge: 1000 * 60 * 60 * 200
             }).json({
                 success: true,
-                user: { id: user._id, email: user.email }
+                user: { id: user.id, email: user.email },
+                token: token
             });
         } catch (error) {
             res.status(400).json({ error: error.message });
@@ -76,7 +77,7 @@ export class UsuariosController {
 
     verifyUserToken = async (req, res) => {
         try {
-            const token = req.cookies.token;
+            const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
 
             if (!token) {
                 return res.status(401).json({ valid: false, message: 'No token provided' });
