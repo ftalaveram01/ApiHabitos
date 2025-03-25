@@ -41,7 +41,6 @@ export class UsuariosController {
             const newUser = await this.usuarioModel.register({ input: usuario.data });
             res.status(201).json(newUser);
         } catch (error) {
-            console.log(error)
             res.status(400).json({ error: error.message });
         }
     }
