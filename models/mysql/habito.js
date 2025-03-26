@@ -46,7 +46,7 @@ export class HabitoModel {
     }
 
     static async getHabitosRecomendados() {
-        const [habitoPublico] = await connection.execute('SELECT * FROM habitos_publicos');
+        const [habitoPublico] = await connection.execute('SELECT nombre, descripcion FROM habitos WHERE publico = 1');
         return habitoPublico;
     }
 }
