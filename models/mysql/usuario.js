@@ -44,8 +44,6 @@ export class UsuarioModel {
         const [users] = await connection.execute('SELECT * FROM usuarios WHERE email = ?', [email]);
         const user = users[0];
 
-        console.log('user', user);
-
         if (user) {
             throw new Error('El email ya está en uso');
         }
@@ -65,8 +63,6 @@ export class UsuarioModel {
 
         const [users] = await connection.execute('SELECT * FROM usuarios WHERE email = ?', [email]);
         const user = users[0];
-
-        console.log('user', user);
 
         if (!user) {
             throw new Error('El usuario no existe');
