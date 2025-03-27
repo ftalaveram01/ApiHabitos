@@ -83,8 +83,6 @@ export class UsuarioModel {
             throw new Error('El usuario no existe');
         }
 
-        console.log(user)
-
         return user;
     }
 
