@@ -74,4 +74,8 @@ export class UsuarioModel {
         return usuarioActualizado;
     }
 
+    static async datosUsuario(id) {
+        const [users] = await connection.execute('SELECT u.nombre, u.email, COUNT(h.id) FROM usuarios u JOIN habitos h ON u.id = h.usuario_id WHERE u.id = ?', [id])
+    }
+
 }
