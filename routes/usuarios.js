@@ -14,6 +14,7 @@ export const createUsuariosRouter = ({ usuarioModel }) => {
     // USER POSIBLE ACTIONS
     userRouter.put('/:id', usuariosController.updateUser)
     userRouter.delete('/:id', usuariosController.deleteUser)
+    userRouter.get('/datauser', usuariosController.getUserData)
 
     userRouter.get('/verifyaccess', usuariosController.verifyUserToken)
 

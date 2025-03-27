@@ -20,7 +20,7 @@ const connection = await mysql.createConnection(connectionString)
 export class UsuarioModel {
     static async login({ email, password }) {
 
-        const [users] = await connection.execute('SELECT * FROM usuarios WHERE email = ?', [email]);
+        const [users] = await connection.query('SELECT * FROM usuarios WHERE email = ?', [email]);
 
         if (users.length === 0) {
             throw new Error('Usuario o contraseña incorrectos');
@@ -75,7 +75,17 @@ export class UsuarioModel {
     }
 
     static async datosUsuario(id) {
-        const [users] = await connection.execute('SELECT u.nombre, u.email, COUNT(h.id) FROM usuarios u JOIN habitos h ON u.id = h.usuario_id WHERE u.id = ?', [id])
+
+        const [users] = await connection.query('SELECT u.nombre, u.email, COUNT(h.id) as numeroHabitos FROM usuarios u JOIN habitos h ON u.id = h.usuario_id WHERE u.id = ?', [id]);
+        const user = users[0];
+
+        if (!user) {
+            throw new Error('El usuario no existe');
+        }
+
+        console.log(user)
+
+        return user;
     }
 
 }
