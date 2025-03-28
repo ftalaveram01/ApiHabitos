@@ -17,8 +17,10 @@ export class UsuariosController {
             res.status(200).cookie("token", token, {
                 httpOnly: true,
                 secure: true,
-                sameSite: "Strict",
+                sameSite: "none",
+                domain: ".vercel.app",
                 maxAge: 1000 * 60 * 60 * 200,
+                path: "/"
             }).json({
                 success: true,
                 user: { id: user.id, email: user.email },
