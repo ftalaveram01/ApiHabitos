@@ -8,6 +8,8 @@ const ACCEPTED_ORIGINS = [
 ]
 
 export const corsMiddleware = ({ acceptedOrigins = ACCEPTED_ORIGINS } = {}) => cors({
-  origin: '*',
-  credentials: false
+  origin: true,  // Permite cualquier origen (pero requiere `credentials: true`)
+  credentials: true,  // Habilita cookies y auth headers
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // Métodos permitidos
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],  // Headers permitidos
 })
