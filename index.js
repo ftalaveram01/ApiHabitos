@@ -10,12 +10,7 @@ import 'dotenv/config.js';
 const app = express();
 app.use(json());
 app.use(cookieParser());
-app.use(corsMiddleware({
-    origin: process.env.CORS_ORIGIN,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
-}));
+app.use(corsMiddleware());
 app.use((req, res, next) => {
     res.removeHeader('X-Powered-By')
     next()
