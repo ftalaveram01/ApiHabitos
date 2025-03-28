@@ -2,7 +2,7 @@ import express, { json } from 'express';
 import { createUsuariosRouter } from './routes/usuarios.js';
 import { createHabitosRouter } from './routes/habitos.js';
 import { corsMiddleware } from './middlewares/cors.js';
-import { UsuarioModel } from './models/mysql/usuario.js'
+import { UsuarioModel } from './models/mysql/usuario.js';
 import { HabitoModel } from './models/mysql/habito.js'
 import cookieParser from 'cookie-parser';
 import 'dotenv/config.js';
