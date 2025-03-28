@@ -9,6 +9,5 @@ const ACCEPTED_ORIGINS = [
 
 export const corsMiddleware = ({ acceptedOrigins = ACCEPTED_ORIGINS } = {}) => cors({
   origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: false
 })
