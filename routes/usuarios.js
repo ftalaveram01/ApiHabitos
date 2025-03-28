@@ -12,8 +12,8 @@ export const createUsuariosRouter = ({ usuarioModel }) => {
     userRouter.get('/logout', usuariosController.logoutUser)
 
     // USER POSIBLE ACTIONS
-    userRouter.put('/:id', usuariosController.updateUser)
-    userRouter.delete('/:id', usuariosController.deleteUser)
+    userRouter.put('/:id', usuariosController.updateUser) // ❌ No hace falta la id del usuario, viene en el token
+    userRouter.delete('/:id', usuariosController.deleteUser) // ❌ No hace falta la id del usuario, viene en el token
     userRouter.get('/datauser', usuariosController.getUserData)
 
     userRouter.get('/verifyaccess', usuariosController.verifyUserToken)
