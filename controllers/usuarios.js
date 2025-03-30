@@ -17,7 +17,7 @@ export class UsuariosController {
             res.status(200).cookie("token", token, {
                 httpOnly: true,
                 secure: true,
-                sameSite: "none",
+                sameSite: "Strict",
                 maxAge: 1000 * 60 * 60 * 200
             }).json({
                 success: true,
@@ -50,7 +50,7 @@ export class UsuariosController {
             res.clearCookie('token', {
                 httpOnly: true,
                 secure: true,
-                sameSite: "none"
+                sameSite: "Strict"
             }).status(200).json({ success: true });
         } catch (error) {
             res.status(400).json({ error: error.message });
