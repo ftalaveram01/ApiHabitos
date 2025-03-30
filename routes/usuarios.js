@@ -9,7 +9,7 @@ export const createUsuariosRouter = ({ usuarioModel }) => {
     // AUTH
     userRouter.post('/login', usuariosController.loginUser)
     userRouter.post('/register', usuariosController.registerUser)
-    userRouter.get('/logout', usuariosController.logoutUser)
+    userRouter.post('/logout', usuariosController.logoutUser)
 
     // USER POSIBLE ACTIONS
     userRouter.put('/:id', usuariosController.updateUser) // ❌ No hace falta la id del usuario, viene en el token
