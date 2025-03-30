@@ -19,8 +19,19 @@ export class HabitosController {
 
     createHabito = async (req, res) => {
         try {
-            const { nombre, descripcion, usuario_id, creadoEn } = req.body;
-            const newHabito = await this.habitoModel.createHabito({ nombre, descripcion, usuario_id, creadoEn });
+
+            const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
+
+            if (!token) {
+                res.status(401).json({ valid: 'false', message: 'No token provided' });
+                return;
+            }
+
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            const usuario_id = decoded.id;
+
+            const { nombre, descripcion, creadoEn, publico, horasIntervalo } = req.body;
+            const newHabito = await this.habitoModel.createHabito({ nombre, descripcion, usuario_id, creadoEn, publico, horasIntervalo });
             res.status(201).json(newHabito);
         } catch (error) {
             res.status(400).json({ error: error.message });
@@ -51,7 +62,7 @@ export class HabitosController {
     getHabitosUsuario = async (req, res) => {
         try {
 
-            const token = req.cookies.token;
+            const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
 
             if (!token) {
                 res.status(401).json({ valid: 'false', message: 'No token provided' });

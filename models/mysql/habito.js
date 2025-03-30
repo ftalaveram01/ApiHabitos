@@ -24,8 +24,14 @@ export class HabitoModel {
         return habito[0];
     }
 
-    static async createHabito({ nombre, descripcion, usuario_id, creadoEn }) {
-        const [result] = await connection.execute('INSERT INTO habitos (nombre, descripcion, usuario_id, creado_en) VALUES (?, ?, ?, ?)', [nombre, descripcion, usuario_id, creadoEn]);
+    static async createHabito({ nombre, descripcion, usuario_id, creadoEn, publico, horasIntervalo }) {
+
+        const fecha = new Date(creadoEn);
+        fecha.setHours(fecha.getHours() + horasIntervalo);
+        const fecha_nueva_actualizacion = fecha.toISOString().slice(0, 19).replace('T', ' ');
+        const habilitado = 1;
+
+        const [result] = await connection.execute('INSERT INTO habitos (nombre, descripcion, usuario_id, creado_en, publico, fecha_nueva_actualizacion, habilitado, horas_intervalo) VALUES (?, ?, ?, ?)', [nombre, descripcion, usuario_id, creadoEn, publico, fecha_nueva_actualizacion, habilitado, horasIntervalo]);
         return result;
     }
 
