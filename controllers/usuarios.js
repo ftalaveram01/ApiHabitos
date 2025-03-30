@@ -54,7 +54,7 @@ export class UsuariosController {
                 expires: new Date(1970, 1, 1)
             })
             
-            console.log("Cookie de token eliminada: ", res.cookies.token);
+            console.log("Cookie de token eliminada: ", res.cookies);
 
             res.status(200).json({
                 success: true,
