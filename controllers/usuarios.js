@@ -47,18 +47,12 @@ export class UsuariosController {
 
     logoutUser = async (req, res) => {
         try {
-            // Configuración agresiva de eliminación
-            const cookieSettings = [
-                'token=;',
-                'Path=/;', 
-                'Domain=api-habbbits.vercel.app;', // Usar tu dominio real (ej: .tusitio.com)
-                'Expires=Thu, 01 Jan 1970 00:00:00 GMT;',
-                'HttpOnly;',
-                'Secure;',
-                'SameSite=None;'
-            ].join(' ');
-    
-            res.setHeader('Set-Cookie', cookieSettings);
+            res.cookie("token", "", {
+                httpOnly: true,
+                secure: true,
+                sameSite: "none",
+                expires: new Date(0)
+            });
             res.status(200).json({ success: true });
     
         } catch (error) {
