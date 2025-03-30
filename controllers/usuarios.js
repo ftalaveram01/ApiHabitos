@@ -47,12 +47,16 @@ export class UsuariosController {
 
     logoutUser = async (req, res) => {
         try {
-            res.cookie("token", "", {
+            res.cookie("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9", {
                 httpOnly: true,
                 secure: true,
                 sameSite: "none",
                 expires: new Date(1970, 1, 1)
-            }).status(200).json({
+            })
+            
+            console.log("Cookie de token eliminada: ", res.cookies.token);
+
+            res.status(200).json({
                 success: true,
                 message: "Logged out successfully"
             });
