@@ -26,6 +26,14 @@ export class HabitoModel {
 
     static async createHabito({ nombre, descripcion, usuario_id, creadoEn, publico, horasIntervalo, fechaInicio }) {
 
+        console.log(nombre)
+        console.log(descripcion)
+        console.log(usuario_id)
+        console.log(creadoEn)
+        console.log(publico)
+        console.log(horasIntervalo)
+        console.log(fechaInicio)
+
         const fecha = new Date(fechaInicio);
         fecha.setHours(fecha.getHours() + horasIntervalo);
         const fecha_nueva_actualizacion = fecha.toISOString().slice(0, 19).replace('T', ' ');
