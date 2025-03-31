@@ -47,7 +47,7 @@ export class HabitoModel {
     }
 
     static async getHabitosUsuario({ idUsuario }) {
-        const [habitos] = await connection.execute('SELECT * FROM habitos WHERE usuario_id = ?', [idUsuario]);
+        const [habitos] = await connection.execute('SELECT * FROM habitos WHERE usuario_id = ? && habilitado = 1', [idUsuario]);
         return habitos;
     }
 
