@@ -30,8 +30,8 @@ export class HabitosController {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             const usuario_id = decoded.id;
 
-            const { nombre, descripcion, creadoEn, publico, horasIntervalo } = req.body;
-            const newHabito = await this.habitoModel.createHabito({ nombre, descripcion, usuario_id, creadoEn, publico, horasIntervalo });
+            const { nombre, descripcion, creadoEn, publico, horasIntervalo, fechaInicio } = req.body;
+            const newHabito = await this.habitoModel.createHabito({ nombre, descripcion, usuario_id, creadoEn, publico, horasIntervalo, fechaInicio });
             res.status(201).json(newHabito);
         } catch (error) {
             res.status(400).json({ error: error.message });

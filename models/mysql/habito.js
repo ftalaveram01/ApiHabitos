@@ -24,9 +24,9 @@ export class HabitoModel {
         return habito[0];
     }
 
-    static async createHabito({ nombre, descripcion, usuario_id, creadoEn, publico, horasIntervalo }) {
+    static async createHabito({ nombre, descripcion, usuario_id, creadoEn, publico, horasIntervalo, fechaInicio }) {
 
-        const fecha = new Date(creadoEn);
+        const fecha = new Date(fechaInicio);
         fecha.setHours(fecha.getHours() + horasIntervalo);
         const fecha_nueva_actualizacion = fecha.toISOString().slice(0, 19).replace('T', ' ');
         const habilitado = 1;
