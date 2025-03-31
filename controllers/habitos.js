@@ -46,7 +46,26 @@ export class HabitosController {
 
     updateHabito = async (req, res) => {
         try {
+
+            const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
+
+            if (!token) {
+                res.status(401).json({ valid: 'false', message: 'No token provided' });
+                return;
+            }
+
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            const usuario_id = decoded.id;
+
             const { id } = req.params;
+
+            const habito = await this.habitoModel.getHabito({ id, idUsuario });
+
+            if (!habito) {
+                res.status(401).json({ valid: 'false', message: 'The user dont have that habit' });
+                return;
+            }
+
             const { nombre, descripcion } = req.body;
             const updatedHabito = await this.habitoModel.updateHabito({ id, nombre, descripcion });
             res.status(200).json(updatedHabito);
@@ -58,6 +77,26 @@ export class HabitosController {
     deleteHabito = async (req, res) => {
         try {
             const { id } = req.params;
+
+            const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
+
+            if (!token) {
+                res.status(401).json({ valid: 'false', message: 'No token provided' });
+                return;
+            }
+
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            const usuario_id = decoded.id;
+
+            const { id } = req.params;
+
+            const habito = await this.habitoModel.getHabito({ id, idUsuario });
+
+            if (!habito) {
+                res.status(401).json({ valid: 'false', message: 'The user dont have that habit' });
+                return;
+            }
+
             await this.habitoModel.deleteHabito({ id });
             res.status(204).end();
         } catch (error) {

@@ -42,7 +42,7 @@ export class HabitoModel {
     }
 
     static async deleteHabito({ id }) {
-        const [result] = await connection.execute('DELETE FROM habitos WHERE id = ?', [id]);
+        const [result] = await connection.execute('UPDATE habitos SET habilitado = 0 WHERE id = ?', [id]);
         return result;
     }
 
