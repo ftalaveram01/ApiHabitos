@@ -88,8 +88,6 @@ export class HabitosController {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             const usuario_id = decoded.id;
 
-            const { id } = req.params;
-
             const habito = await this.habitoModel.getHabito({ id, idUsuario });
 
             if (!habito) {
