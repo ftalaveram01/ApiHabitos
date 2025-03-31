@@ -82,8 +82,8 @@ export class HabitosController {
             const habitos = await this.habitoModel.getHabitosUsuario({ idUsuario });
 
             const habitosReducidos = habitos.map(habito => {
-                const { nombre, descripcion, creado_en } = habito;
-                return { nombre, descripcion, creado_en };
+                const { id, nombre, descripcion, fecha_nueva_actualizacion } = habito;
+                return { id, nombre, descripcion, fecha_nueva_actualizacion };
             });
 
             res.status(200).json(habitosReducidos);
