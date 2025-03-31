@@ -40,7 +40,7 @@ export class HabitoModel {
         const creadoEnFormateado = new Date(creadoEn).toISOString().slice(0, 19).replace('T', ' ');
         const habilitado = 1;
 
-        const [result] = await connection.execute('INSERT INTO habitos (nombre, descripcion, usuario_id, creado_en, publico, fecha_nueva_actualizacion, habilitado, horas_intervalo) VALUES (?, ?, ?, ?)', [nombre, descripcion, usuario_id, creadoEnFormateado, publico, fecha_nueva_actualizacion, habilitado, horasIntervalo]);
+        const [result] = await connection.execute('INSERT INTO habitos (nombre, descripcion, usuario_id, creado_en, publico, fecha_nueva_actualizacion, habilitado, horas_intervalo) VALUES (?, ?, ?, ?)', [nombre, descripcion, usuario_id, creadoEnFormateado, publico ? 1 : 0, fecha_nueva_actualizacion, habilitado, horasIntervalo]);
         return result;
     }
 
