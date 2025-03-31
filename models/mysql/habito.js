@@ -28,10 +28,11 @@ export class HabitoModel {
 
         const fecha = new Date(fechaInicio);
         fecha.setHours(fecha.getHours() + horasIntervalo);
-        const fecha_nueva_actualizacion = fecha.toISOString().slice(0, 19);
+        const fecha_nueva_actualizacion = fecha.toISOString().slice(0, 19).replace('T', ' ');
+        const creadoEnFormateado = new Date(creadoEn).toISOString().slice(0, 19).replace('T', ' ');
         const habilitado = 1;
 
-        const [result] = await connection.execute('INSERT INTO habitos (nombre, descripcion, usuario_id, creado_en, publico, fecha_nueva_actualizacion, habilitado, horas_intervalo) VALUES (?, ?, ?, ?)', [nombre, descripcion, usuario_id, creadoEn, publico, fecha_nueva_actualizacion, habilitado, horasIntervalo]);
+        const [result] = await connection.execute('INSERT INTO habitos (nombre, descripcion, usuario_id, creado_en, publico, fecha_nueva_actualizacion, habilitado, horas_intervalo) VALUES (?, ?, ?, ?)', [nombre, descripcion, usuario_id, creadoEnFormateado, publico, fecha_nueva_actualizacion, habilitado, horasIntervalo]);
         return result;
     }
 
