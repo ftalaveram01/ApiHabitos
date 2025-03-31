@@ -31,6 +31,9 @@ export class HabitosController {
             const usuario_id = decoded.id;
 
             const { nombre, descripcion, creadoEn, publico, horasIntervalo, fechaInicio } = req.body;
+
+            console.log("Tipo de fechaInicio: ", fechaInicio)
+
             const newHabito = await this.habitoModel.createHabito({ nombre, descripcion, usuario_id, creadoEn, publico, horasIntervalo, fechaInicio });
             res.status(201).json(newHabito);
         } catch (error) {
