@@ -37,7 +37,7 @@ export class HabitosController {
             const newHabito = await this.habitoModel.createHabito({ nombre, descripcion, usuario_id, creadoEn, publico, horasIntervalo, fechaInicio });
             res.status(201).json(newHabito);
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            res.status(400).json({ error: 'HA FALLADO EN EL CONTROLLER' });
         }
     }
 
