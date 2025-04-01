@@ -66,8 +66,8 @@ export class HabitosController {
                 return;
             }
 
-            const { nombre, descripcion } = req.body;
-            const updatedHabito = await this.habitoModel.updateHabito({ id, nombre, descripcion });
+            const { nombre, descripcion, publico } = req.body;
+            const updatedHabito = await this.habitoModel.updateHabito({ id, nombre, descripcion, publico });
             res.status(200).json({
                 success: true
             });

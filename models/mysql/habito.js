@@ -36,8 +36,8 @@ export class HabitoModel {
         return result;
     }
 
-    static async updateHabito({ id, nombre, descripcion }) {
-        const [result] = await connection.execute('UPDATE habitos SET nombre = ?, descripcion = ? WHERE id = ?', [nombre, descripcion, id]);
+    static async updateHabito({ id, nombre, descripcion, publico }) {
+        const [result] = await connection.execute('UPDATE habitos SET nombre = ?, descripcion = ?, publico = ? WHERE id = ?', [nombre, descripcion, publico, id]);
         return result;
     }
 
