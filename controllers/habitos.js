@@ -59,7 +59,7 @@ export class HabitosController {
 
             const { id } = req.params;
 
-            const habito = await this.habitoModel.getHabito({ id, idUsuario });
+            const habito = await this.habitoModel.getHabito({ id, usuario_id });
 
             if (!habito) {
                 res.status(401).json({ valid: 'false', message: 'The user dont have that habit' });
@@ -68,7 +68,9 @@ export class HabitosController {
 
             const { nombre, descripcion } = req.body;
             const updatedHabito = await this.habitoModel.updateHabito({ id, nombre, descripcion });
-            res.status(200).json(updatedHabito);
+            res.status(200).json({
+                success: true
+            });
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
