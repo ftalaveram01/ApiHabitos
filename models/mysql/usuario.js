@@ -87,7 +87,9 @@ export class UsuarioModel {
             throw new Error('La contraseña no es correcta');
         }
 
-        const [usuarioActualizado] = await connection.execute('UPDATE usuarios SET contra = ? WHERE id = ?', [newPassword, id]);
+        const newPasswordHashed = await bcrypt.hash(newPassword, 10);
+
+        const [usuarioActualizado] = await connection.execute('UPDATE usuarios SET contra = ? WHERE id = ?', [newPasswordHashed, id]);
         return usuarioActualizado;
     }
 
