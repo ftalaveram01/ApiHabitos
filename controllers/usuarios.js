@@ -53,14 +53,14 @@ export class UsuariosController {
                 sameSite: "none",
                 expires: new Date(1970, 1, 1)
             })
-            
+
             console.log("Cookie de token eliminada: ", res.cookies);
 
             res.status(200).json({
                 success: true,
                 message: "Logged out successfully"
             });
-    
+
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
@@ -104,22 +104,70 @@ export class UsuariosController {
 
     updateUser = async (req, res) => {
         try {
-            const { id } = req.params;
-            const { nombre, email, password } = req.body;
-            const updatedUser = await this.usuarioModel.updateUser(parseInt(id), { nombre, email, password });
-            res.status(200).json(updatedUser);
+
+            const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
+
+            if (!token) {
+                return res.status(401).json({ valid: false, message: 'No token provided' });
+            }
+
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+            const id = decoded.id;
+
+            const { nombre, email } = req.body;
+
+            const updatedUser = await this.usuarioModel.updateUser(parseInt(id), { nombre, email });
+            res.status(200).json({
+                success: true
+            });
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            if (error instanceof jwt.TokenExpiredError) {
+                return res.status(401).json({ isAuthenticated: false, message: 'Token expired' });
+            }
+
+            if (error instanceof jwt.JsonWebTokenError) {
+                return res.status(401).json({ isAuthenticated: false, message: 'Invalid token' });
+            }
+
+            if (error.status === 400) {
+                return res.status(400).json({ error: 'Error de envio de datos' })
+            }
+
+            res.status(500).json({ isAuthenticated: false, message: 'Internal server error' });
         }
     }
 
     deleteUser = async (req, res) => {
         try {
-            const { id } = req.params;
+            const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
+
+            if (!token) {
+                return res.status(401).json({ valid: false, message: 'No token provided' });
+            }
+
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+            const id = decoded.id;
+
             await this.usuarioModel.deleteUser(parseInt(id));
-            res.status(204).end();
+            res.status(204).json({
+                success: true
+            });
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            if (error instanceof jwt.TokenExpiredError) {
+                return res.status(401).json({ isAuthenticated: false, message: 'Token expired' });
+            }
+
+            if (error instanceof jwt.JsonWebTokenError) {
+                return res.status(401).json({ isAuthenticated: false, message: 'Invalid token' });
+            }
+
+            if (error.status === 400) {
+                return res.status(400).json({ error: 'Error de envio de datos' })
+            }
+
+            res.status(500).json({ isAuthenticated: false, message: 'Internal server error' });
         }
     }
 

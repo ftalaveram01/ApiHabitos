@@ -59,7 +59,7 @@ export class UsuarioModel {
         return result;
     }
 
-    static async updateUser(id, { nombre, email, password }) {
+    static async updateUser(id, { nombre, email }) {
 
         const [users] = await connection.execute('SELECT * FROM usuarios WHERE email = ?', [email]);
         const user = users[0];
@@ -68,10 +68,20 @@ export class UsuarioModel {
             throw new Error('El usuario no existe');
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const [usuarioActualizado] = await connection.execute('UPDATE usuarios SET nombre = ?, email = ?, contra = ? WHERE id = ?', [nombre, email, hashedPassword, id]);
+        const [usuarioActualizado] = await connection.execute('UPDATE usuarios SET nombre = ?, email = ? WHERE id = ?', [nombre, email, id]);
         return usuarioActualizado;
+    }
+
+    static async deleteUser(id) {
+        const [users] = await connection.execute('SELECT * FROM usuarios WHERE id = ?', [id]);
+        const user = users[0];
+
+        if (!user) {
+            throw new Error('El usuario no existe');
+        }
+
+        const [usuarioEliminado] = await connection.execute('UPDATE usuarios SET habilitado = 0 WHERE id = ?', [id]);
+        return usuarioEliminado;
     }
 
     static async datosUsuario(id) {
