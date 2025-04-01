@@ -13,6 +13,7 @@ export const createUsuariosRouter = ({ usuarioModel }) => {
 
     // USER POSIBLE ACTIONS
     userRouter.put('/', usuariosController.updateUser)
+    userRouter.put('/password', usuariosController.updatePassword)
     userRouter.delete('/', usuariosController.deleteUser)
     userRouter.get('/datauser', usuariosController.getUserData)
 

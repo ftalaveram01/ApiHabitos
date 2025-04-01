@@ -72,6 +72,25 @@ export class UsuarioModel {
         return usuarioActualizado;
     }
 
+    static async updatePassword( id, {password, newPassword}) {
+        const [users] = await connection.query('SELECT * FROM usuarios WHERE id = ?', [id]);
+
+        if (users.length === 0) {
+            throw new Error('El usuario no existe');
+        }
+
+        const user = users[0];
+
+        const isPasswordValid = await bcrypt.compare(password, user.contra);
+
+        if (!isPasswordValid) {
+            throw new Error('La contraseña no es correcta');
+        }
+
+        const [usuarioActualizado] = await connection.execute('UPDATE usuarios SET contra = ? WHERE id = ?', [newPassword, id]);
+        return usuarioActualizado;
+    }
+
     static async deleteUser(id) {
         const [users] = await connection.execute('SELECT * FROM usuarios WHERE id = ?', [id]);
         const user = users[0];

@@ -138,6 +138,43 @@ export class UsuariosController {
         }
     }
 
+    updatePassword = async (req, res) => {
+        try {
+
+            const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
+
+            if (!token) {
+                return res.status(401).json({ valid: false, message: 'No token provided' });
+            }
+
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+            const id = decoded.id;
+
+            const { password, newPassword } = req.body;
+
+            const updatedUser = await this.usuarioModel.updatePassword(parseInt(id), { password, newPassword });
+            
+            res.status(200).json({
+                success: true
+            });
+        } catch (error) {
+            if (error instanceof jwt.TokenExpiredError) {
+                return res.status(401).json({ isAuthenticated: false, message: 'Token expired' });
+            }
+
+            if (error instanceof jwt.JsonWebTokenError) {
+                return res.status(401).json({ isAuthenticated: false, message: 'Invalid token' });
+            }
+
+            if (error.status === 400) {
+                return res.status(400).json({ error: 'Error de envio de datos' })
+            }
+
+            res.status(500).json({ isAuthenticated: false, message: 'Internal server error' });
+        }
+    }
+
     deleteUser = async (req, res) => {
         try {
             const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
