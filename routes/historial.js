@@ -9,5 +9,5 @@ export const createHistorialRouter = ({ historialModel }) => {
     historialRouter.get('/', historialController.getHistorial)
 
 
-    return habitoRouter
+    return historialRouter
 }
