@@ -94,8 +94,6 @@ export class HabitosController {
 
     deleteHabito = async (req, res) => {
         try {
-            const { id } = req.params;
-
             const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
 
             if (!token) {
@@ -104,11 +102,11 @@ export class HabitosController {
             }
 
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            const idUsuario = decoded.id;
+            const usuario_id = decoded.id;
 
-            console.log('antes de getHabito')
+            const { id } = req.params;
 
-            const habito = await this.habitoModel.getHabito({ id, idUsuario });
+            const habito = await this.habitoModel.getHabito({ id, usuario_id });
 
             if (!habito) {
                 res.status(401).json({ valid: 'false', message: 'The user dont have that habit' });
