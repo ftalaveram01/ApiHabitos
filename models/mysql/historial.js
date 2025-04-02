@@ -39,7 +39,7 @@ export class HistorialModel {
         const timestamp = new Date()
         const fechaRegistro = timestamp.toISOString().slice(0, 19).replace('T', ' ')
 
-        const fecha = new Date(ha)
+        const fecha = new Date(String(habito.fecha_nueva_actualizacion))
         console.log(fecha)
 
         if (timestamp.getTime() < fecha.getTime()) {
