@@ -49,9 +49,7 @@ export class HistorialModel {
 
         console.log('Historial creado: ', historial)
 
-        habito.fecha_nueva_actualizacion = habito.fecha_nueva_actualizacion.slice(0, 19).replace('T', ' ');
-
-        const fecha = new Date(habito.fecha_nueva_actualizacion)
+        const fecha = new Date(String(habito.fecha_nueva_actualizacion))
 
         console.log(fecha)
         fecha.setHours(fecha.getHours() + Number(habito.horas_intervalo))
