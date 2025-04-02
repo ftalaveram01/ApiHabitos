@@ -30,6 +30,8 @@ export class HistorialModel {
 
         const habito = (await connection.execute('SELECT fecha_nueva_actualizacion FROM habitos WHERE id = ?', [idHabito]))[0]
 
+        console.log('Habito con solo fecha: ', habito)
+
         const timestamp = new Date()
         const fechaRegistro = timestamp.toISOString().slice(0, 19).replace('T', ' ')
 
@@ -41,7 +43,11 @@ export class HistorialModel {
             puntuacion = -5
         }
 
+        console.log('Puntual: ', puntual, ', Puntuacion: ', puntuacion)
+
         const [historial] = await connection.execute('INSERT INTO historial_habitos (habito_id, usuario_id, fecha_registro, puntual, puntuacion) VALUES (?, ?, ?, ?, ?)', [idHabito, idUsuario, fechaRegistro, puntual, puntuacion])
+
+        console.log('Historial creado: ', historial)
 
         return historial
     }
