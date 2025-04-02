@@ -56,7 +56,7 @@ export class HistorialModel {
             String(fecha.getMinutes()).padStart(2, '0') + ':' +
             String(fecha.getSeconds()).padStart(2, '0');
 
-        connection.execute('ALTER TABLE habitos SET fecha_nueva_actualizacion = ? WHERE id = ?', [nuevaFechaActualizacion, idHabito])
+        connection.execute('UPDATE habitos SET fecha_nueva_actualizacion = ? WHERE id = ?', [nuevaFechaActualizacion, idHabito])
 
         console.log('Historial creado: ', historial)
 
