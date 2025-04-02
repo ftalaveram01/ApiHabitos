@@ -47,8 +47,14 @@ export class HistorialModel {
 
         const [historial] = await connection.execute('INSERT INTO historial_habitos (habito_id, fecha_registro, puntual, puntuacion) VALUES (?, ?, ?, ?)', [idHabito, fechaRegistro, puntual, puntuacion])
 
-        const nuevaFechaActualizacion = new Date(habito.fecha_nueva_actualizacion)
-        nuevaFechaActualizacion.setHours(nuevaFechaActualizacion.getHours + habito.horas_intervalo)
+        const fechaNueva = new Date(habito.fecha_nueva_actualizacion)
+        fechaNueva.setHours(fechaNueva.getHours + habito.horas_intervalo)
+        const nuevaFechaActualizacion = fecha.getFullYear() + '-' +
+            String(fecha.getMonth() + 1).padStart(2, '0') + '-' +
+            String(fecha.getDate()).padStart(2, '0') + ' ' +
+            String(fecha.getHours()).padStart(2, '0') + ':' +
+            String(fecha.getMinutes()).padStart(2, '0') + ':' +
+            String(fecha.getSeconds()).padStart(2, '0');
 
         connection.execute('ALTER TABLE habitos SET fecha_nueva_actualizacion = ? WHERE id = ?', [nuevaFechaActualizacion, idHabito])
 

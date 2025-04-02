@@ -27,8 +27,15 @@ export class HabitoModel {
     static async createHabito({ nombre, descripcion, usuario_id, creadoEn, publico, horasIntervalo, fechaInicio }) {
 
         const fecha = new Date(fechaInicio);
-        fecha.setHours(fecha.getHours() + horasIntervalo);
-        const fecha_nueva_actualizacion = fecha.toISOString().slice(0, 19).replace('T', ' ');
+        fecha.setHours(fecha.getHours() + horasIntervalo)
+        const fecha_nueva_actualizacion = fecha.getFullYear() + '-' +
+            String(fecha.getMonth() + 1).padStart(2, '0') + '-' +
+            String(fecha.getDate()).padStart(2, '0') + ' ' +
+            String(fecha.getHours()).padStart(2, '0') + ':' +
+            String(fecha.getMinutes()).padStart(2, '0') + ':' +
+            String(fecha.getSeconds()).padStart(2, '0');
+
+        console.log(fecha_nueva_actualizacion)
         const creadoEnFormateado = new Date(creadoEn).toISOString().slice(0, 19).replace('T', ' ');
         const habilitado = 1;
 
