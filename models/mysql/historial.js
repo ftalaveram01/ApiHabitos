@@ -33,7 +33,7 @@ export class HistorialModel {
         const habito = habitos[0]
         console.log('Habito con solo fecha: ', habito)
 
-        console.log('Tipo de fecha: ', typeof (habito.fecha_nueva_actualizacion))
+        console.log('Tipo de fecha: ', typeof (String(habito.fecha_nueva_actualizacion)))
         console.log('fecha: ', habito.fecha_nueva_actualizacion)
 
         const timestamp = new Date()
