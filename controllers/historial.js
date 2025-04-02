@@ -51,7 +51,9 @@ export class HistorialController {
 
             const historial = await this.historialModel.createHistorial(id, usuario_id)
 
-            res.status(200).json(historial);
+            res.status(200).json({
+                success: true
+            });
         } catch (error) {
             if (error instanceof jwt.TokenExpiredError) {
                 return res.status(401).json({ isAuthenticated: false, message: 'Token expired' });

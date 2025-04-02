@@ -42,6 +42,8 @@ export class HistorialModel {
         }
 
         const [historial] = await connection.execute('INSERT INTO historial_habitos (habito_id, usuario_id, fecha_registro, puntual, puntuacion) VALUES (?, ?, ?, ?, ?)', [idHabito, idUsuario, fechaRegistro, puntual, puntuacion])
+
+        return historial
     }
 
 }
