@@ -28,7 +28,7 @@ export class HistorialModel {
 
         let puntual, puntuacion
 
-        const habito = (await connection.execute('SELECT DATE_FORMAT(fecha_nueva_actualizacion) as fecha_nueva_actualizacion, horas_intervalo FROM habitos WHERE id = ?', [idHabito]))[0]
+        const habito = (await connection.execute('SELECT fecha_nueva_actualizacion, horas_intervalo FROM habitos WHERE id = ?', [idHabito]))[0]
 
         console.log('Habito con solo fecha: ', habito)
 
