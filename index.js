@@ -20,6 +20,6 @@ app.use((req, res, next) => {
 
 app.use('/usuarios', createUsuariosRouter({ usuarioModel: UsuarioModel }));
 app.use('/habitos', createHabitosRouter({ habitoModel: HabitoModel }));
-app.use('/historial', createHistorialRouter({ historialModel: HistorialModel }))
+app.use('/historial', createHistorialRouter({ historialModel: HistorialModel }));
 
 export default app;

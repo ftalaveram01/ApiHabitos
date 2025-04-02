@@ -1,5 +1,5 @@
 import Router from "express";
-import { HistorialController } from "../controllers/historial";
+import { HistorialController } from "../controllers/historial.js";
 
 export const createHistorialRouter = ({ historialModel }) => {
     const historialRouter = new Router()
