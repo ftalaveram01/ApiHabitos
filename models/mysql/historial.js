@@ -35,7 +35,10 @@ export class HistorialModel {
         const timestamp = new Date()
         const fechaRegistro = timestamp.toISOString().slice(0, 19).replace('T', ' ')
 
-        const fecha = new Date(habito.fecha_nueva_actualizacion)
+        const fechaProvisional = habito.fecha_nueva_actualizacion.split(/[- :]/)
+
+        const fecha = new Date(Date.UTC(fechaProvisional[0], fechaProvisional[1] - 1, fechaProvisional[2], fechaProvisional[3], fechaProvisional[4], fechaProvisional[5]))
+        console.log(fecha)
 
         if (timestamp.getTime() < fecha.getTime()) {
             puntual = 1
@@ -51,7 +54,7 @@ export class HistorialModel {
 
         console.log('Historial creado: ', historial)
 
-        console.log(fecha)
+
         fecha.setHours(fecha.getHours() + Number(habito.horas_intervalo))
         const nuevaFechaActualizacion = fecha.getFullYear() + '-' +
             String(fecha.getMonth() + 1).padStart(2, '0') + '-' +
