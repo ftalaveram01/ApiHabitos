@@ -106,9 +106,9 @@ export class HabitosController {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             const idUsuario = decoded.id;
 
-            const habito = await this.habitoModel.getHabito({ id, idUsuario });
+            console.log('antes de getHabito')
 
-            console.log(habito)
+            const habito = await this.habitoModel.getHabito({ id, idUsuario });
 
             if (!habito) {
                 res.status(401).json({ valid: 'false', message: 'The user dont have that habit' });
