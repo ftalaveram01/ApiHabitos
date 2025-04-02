@@ -21,7 +21,7 @@ export class HistorialModel {
     static async getHistorial(idUsuario) {
         const [historial] = await connection.execute('SELECT hh.*, h.nombre FROM historial_habitos hh JOIN habitos h ON h.id = hh.habito_id WHERE usuario_id = ?', [idUsuario]);
 
-        return historial[0];
+        return historial;
     }
 
 }
