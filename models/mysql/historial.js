@@ -28,14 +28,14 @@ export class HistorialModel {
 
         let puntual, puntuacion
 
-        const habito = (await connection.execute('SELECT fecha_nueva_actualizacion, horas_intervalo FROM habitos WHERE id = ?', [idHabito]))[0]
+        const habito = (await connection.execute('SELECT DATE_FORMAT(fecha_nueva_actualizacion) as fecha_nueva_actualizacion, horas_intervalo FROM habitos WHERE id = ?', [idHabito]))[0]
 
         console.log('Habito con solo fecha: ', habito)
 
         const timestamp = new Date()
         const fechaRegistro = timestamp.toISOString().slice(0, 19).replace('T', ' ')
 
-        const fecha = new Date((habito.fecha_nueva_actualizacion).replace(' ', 'T') + 'Z')
+        const fecha = new Date(habito.fecha_nueva_actualizacion)
 
         if (timestamp.getTime() < fecha.getTime()) {
             puntual = 1
