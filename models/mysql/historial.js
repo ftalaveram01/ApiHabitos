@@ -50,6 +50,8 @@ export class HistorialModel {
         console.log('Historial creado: ', historial)
 
         const fecha = new Date(habito.fecha_nueva_actualizacion)
+
+        console.log(fecha)
         fecha.setHours(fecha.getHours() + Number(habito.horas_intervalo))
         const nuevaFechaActualizacion = fecha.getFullYear() + '-' +
             String(fecha.getMonth() + 1).padStart(2, '0') + '-' +
