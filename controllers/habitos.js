@@ -108,13 +108,15 @@ export class HabitosController {
 
             const habito = await this.habitoModel.getHabito({ id, idUsuario });
 
+            console.log(habito)
+
             if (!habito) {
                 res.status(401).json({ valid: 'false', message: 'The user dont have that habit' });
                 return;
             }
 
-            await this.habitoModel.deleteHabito({ id });
-            res.status(204).end();
+            const respuesta = await this.habitoModel.deleteHabito({ id });
+            res.status(204).json();
         } catch (error) {
             if (error instanceof jwt.TokenExpiredError) {
                 return res.status(401).json({ isAuthenticated: false, message: 'Token expired' });

@@ -19,7 +19,7 @@ const connection = await mysql.createConnection(connectionString)
 export class HabitoModel {
 
     static async getHabito({ id, usuario_id }) {
-        const [habito] = await connection.execute('SELECT * FROM habitos WHERE id = ? && usuario_id = ?', [id, usuario_id]);
+        const [habito] = await connection.execute('SELECT * FROM habitos WHERE id = ? AND usuario_id = ?', [id, usuario_id]);
 
         return habito[0];
     }

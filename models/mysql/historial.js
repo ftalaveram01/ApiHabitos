@@ -31,16 +31,11 @@ export class HistorialModel {
         const [habitos] = await connection.execute('SELECT fecha_nueva_actualizacion, horas_intervalo FROM habitos WHERE id = ?', [idHabito])
 
         const habito = habitos[0]
-        console.log('Habito con solo fecha: ', habito)
-
-        console.log('Tipo de fecha: ', typeof (String(habito.fecha_nueva_actualizacion)))
-        console.log('fecha: ', habito.fecha_nueva_actualizacion)
 
         const timestamp = new Date()
         const fechaRegistro = timestamp.toISOString().slice(0, 19).replace('T', ' ')
 
         const fecha = new Date(String(habito.fecha_nueva_actualizacion))
-        console.log(fecha)
 
         if (timestamp.getTime() < fecha.getTime()) {
             puntual = 1
@@ -50,12 +45,7 @@ export class HistorialModel {
             puntuacion = -5
         }
 
-        console.log('Puntual: ', puntual, ', Puntuacion: ', puntuacion)
-
         const [historial] = await connection.execute('INSERT INTO historial_habitos (habito_id, fecha_registro, puntual, puntuacion) VALUES (?, ?, ?, ?)', [idHabito, fechaRegistro, puntual, puntuacion])
-
-        console.log('Historial creado: ', historial)
-
 
         fecha.setHours(fecha.getHours() + Number(habito.horas_intervalo))
         const nuevaFechaActualizacion = fecha.getFullYear() + '-' +
@@ -65,11 +55,7 @@ export class HistorialModel {
             String(fecha.getMinutes()).padStart(2, '0') + ':' +
             String(fecha.getSeconds()).padStart(2, '0');
 
-        console.log(nuevaFechaActualizacion)
-
         const [update] = await connection.execute('UPDATE habitos SET fecha_nueva_actualizacion = ? WHERE id = ?', [nuevaFechaActualizacion, idHabito])
-
-        console.log('UPDATE: ', update)
 
         return historial
     }
