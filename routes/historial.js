@@ -7,7 +7,7 @@ export const createHistorialRouter = ({ historialModel }) => {
     const historialController = new HistorialController({ historialModel })
 
     historialRouter.get('/', historialController.getHistorial)
-
+    historialRouter.post('/:id', historialController.createHitorial)
 
     return historialRouter
 }

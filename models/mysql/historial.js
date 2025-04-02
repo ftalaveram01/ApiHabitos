@@ -24,4 +24,24 @@ export class HistorialModel {
         return historial;
     }
 
+    static async createHistorial(idHabito, idUsuario) {
+
+        let puntual, puntuacion
+
+        const habito = (await connection.execute('SELECT fecha_nueva_actualizacion FROM habitos WHERE id = ?', [idHabito]))[0]
+
+        const timestamp = new Date()
+        const fechaRegistro = timestamp.toISOString().slice(0, 19).replace('T', ' ')
+
+        if (timestamp.getTime() < new Date(habito.fecha_nueva_actualizacion).getTime()) {
+            puntual = 1
+            puntuacion = 10
+        } else {
+            puntual = 0
+            puntuacion = -5
+        }
+
+        const [historial] = await connection.execute('INSERT INTO historial_habitos (habito_id, usuario_id, fecha_registro, puntual, puntuacion) VALUES (?, ?, ?, ?, ?)', [idHabito, idUsuario, fechaRegistro, puntual, puntuacion])
+    }
+
 }
