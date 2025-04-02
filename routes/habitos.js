@@ -11,8 +11,8 @@ export const createHabitosRouter = ({ habitoModel }) => {
 
     habitoRouter.get('/:id', habitosController.getHabito)
     habitoRouter.post('/', habitosController.createHabito)
-    habitoRouter.put('/:id', habitosController.updateHabito) // 🔍 observar si viene token y si coincide con la id con la del habito
-    habitoRouter.delete('/:id', habitosController.deleteHabito) // 🔍 observar si viene token y si coincide con la id con la del habito
+    habitoRouter.put('/:id', habitosController.updateHabito)
+    habitoRouter.delete('/:id', habitosController.deleteHabito)
 
 
     return habitoRouter
