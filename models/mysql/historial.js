@@ -35,7 +35,9 @@ export class HistorialModel {
         const timestamp = new Date()
         const fechaRegistro = timestamp.toISOString().slice(0, 19).replace('T', ' ')
 
-        if (timestamp.getTime() < new Date(habito.fecha_nueva_actualizacion).getTime()) {
+        const fecha = new Date((habito.fecha_nueva_actualizacion).replace(' ', 'T') + 'Z')
+
+        if (timestamp.getTime() < fecha.getTime()) {
             puntual = 1
             puntuacion = 10
         } else {
@@ -48,8 +50,6 @@ export class HistorialModel {
         const [historial] = await connection.execute('INSERT INTO historial_habitos (habito_id, fecha_registro, puntual, puntuacion) VALUES (?, ?, ?, ?)', [idHabito, fechaRegistro, puntual, puntuacion])
 
         console.log('Historial creado: ', historial)
-
-        const fecha = new Date(Date.parse(habito.fecha_nueva_actualizacion))
 
         console.log(fecha)
         fecha.setHours(fecha.getHours() + Number(habito.horas_intervalo))
