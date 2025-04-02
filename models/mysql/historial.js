@@ -50,13 +50,15 @@ export class HistorialModel {
         console.log('Historial creado: ', historial)
 
         const fecha = new Date(habito.fecha_nueva_actualizacion)
-        fecha.setHours(fecha.getHours() + habito.horas_intervalo)
+        fecha.setHours(fecha.getHours() + Number(habito.horas_intervalo))
         const nuevaFechaActualizacion = fecha.getFullYear() + '-' +
             String(fecha.getMonth() + 1).padStart(2, '0') + '-' +
             String(fecha.getDate()).padStart(2, '0') + ' ' +
             String(fecha.getHours()).padStart(2, '0') + ':' +
             String(fecha.getMinutes()).padStart(2, '0') + ':' +
             String(fecha.getSeconds()).padStart(2, '0');
+
+        console.log(nuevaFechaActualizacion)
 
         const [update] = await connection.execute('UPDATE habitos SET fecha_nueva_actualizacion = ? WHERE id = ?', [nuevaFechaActualizacion, idHabito])
 
