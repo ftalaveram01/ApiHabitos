@@ -24,7 +24,7 @@ export class HistorialModel {
         return historial;
     }
 
-    static async createHistorial(idHabito, idUsuario) {
+    static async createHistorial(idHabito) {
 
         let puntual, puntuacion
 
@@ -45,7 +45,7 @@ export class HistorialModel {
 
         console.log('Puntual: ', puntual, ', Puntuacion: ', puntuacion)
 
-        const [historial] = await connection.execute('INSERT INTO historial_habitos (habito_id, usuario_id, fecha_registro, puntual, puntuacion) VALUES (?, ?, ?, ?, ?)', [idHabito, idUsuario, fechaRegistro, puntual, puntuacion])
+        const [historial] = await connection.execute('INSERT INTO historial_habitos (habito_id, fecha_registro, puntual, puntuacion) VALUES (?, ?, ?, ?, ?)', [idHabito, fechaRegistro, puntual, puntuacion])
 
         console.log('Historial creado: ', historial)
 

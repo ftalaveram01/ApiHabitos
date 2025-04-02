@@ -47,9 +47,8 @@ export class HistorialController {
             const { id } = req.params;
 
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            const usuario_id = decoded.id;
 
-            const historial = await this.historialModel.createHistorial(id, usuario_id)
+            const historial = await this.historialModel.createHistorial(id)
 
             res.status(200).json({
                 success: true
