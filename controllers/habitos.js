@@ -40,7 +40,15 @@ export class HabitosController {
                 success: true
             });
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            if (error instanceof jwt.TokenExpiredError) {
+                return res.status(401).json({ isAuthenticated: false, message: 'Token expired' });
+            }
+
+            if (error instanceof jwt.JsonWebTokenError) {
+                return res.status(401).json({ isAuthenticated: false, message: 'Invalid token' });
+            }
+
+            res.status(500).json({ error: 'Error en el servidor' });
         }
     }
 
@@ -72,7 +80,15 @@ export class HabitosController {
                 success: true
             });
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            if (error instanceof jwt.TokenExpiredError) {
+                return res.status(401).json({ isAuthenticated: false, message: 'Token expired' });
+            }
+
+            if (error instanceof jwt.JsonWebTokenError) {
+                return res.status(401).json({ isAuthenticated: false, message: 'Invalid token' });
+            }
+
+            res.status(500).json({ error: 'Error en el servidor' });
         }
     }
 
@@ -100,7 +116,15 @@ export class HabitosController {
             await this.habitoModel.deleteHabito({ id });
             res.status(204).end();
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            if (error instanceof jwt.TokenExpiredError) {
+                return res.status(401).json({ isAuthenticated: false, message: 'Token expired' });
+            }
+
+            if (error instanceof jwt.JsonWebTokenError) {
+                return res.status(401).json({ isAuthenticated: false, message: 'Invalid token' });
+            }
+
+            res.status(500).json({ error: 'Error en el servidor' });
         }
     }
 
