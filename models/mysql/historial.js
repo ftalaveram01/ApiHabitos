@@ -19,7 +19,7 @@ const connection = await mysql.createConnection(connectionString)
 export class HistorialModel {
 
     static async getHistorial(idUsuario) {
-        const [historial] = await connection.execute('SELECT hh.*, h.nombre FROM historial_habitos hh JOIN habitos h ON h.id = hh.habito_id WHERE usuario_id = ?', [idUsuario]);
+        const [historial] = await connection.execute('SELECT hh.*, h.nombre FROM historial_habitos hh JOIN habitos h ON h.id = hh.habito_id WHERE usuario_id = ? ORDER BY hh.fecha_registro DESC', [idUsuario]);
 
         return historial;
     }
