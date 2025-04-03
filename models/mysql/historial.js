@@ -47,13 +47,25 @@ export class HistorialModel {
 
         const [historial] = await connection.execute('INSERT INTO historial_habitos (habito_id, fecha_registro, puntual, puntuacion) VALUES (?, ?, ?, ?)', [idHabito, fechaRegistro, puntual, puntuacion])
 
-        fecha.setHours(fecha.getHours() + Number(habito.horas_intervalo))
-        const nuevaFechaActualizacion = fecha.getFullYear() + '-' +
-            String(fecha.getMonth() + 1).padStart(2, '0') + '-' +
-            String(fecha.getDate()).padStart(2, '0') + ' ' +
-            String(fecha.getHours()).padStart(2, '0') + ':' +
-            String(fecha.getMinutes()).padStart(2, '0') + ':' +
-            String(fecha.getSeconds()).padStart(2, '0');
+        let nuevaFechaActualizacion
+
+        if (puntual === 1) {
+            fecha.setHours(fecha.getHours() + Number(habito.horas_intervalo))
+            nuevaFechaActualizacion = fecha.getFullYear() + '-' +
+                String(fecha.getMonth() + 1).padStart(2, '0') + '-' +
+                String(fecha.getDate()).padStart(2, '0') + ' ' +
+                String(fecha.getHours()).padStart(2, '0') + ':' +
+                String(fecha.getMinutes()).padStart(2, '0') + ':' +
+                String(fecha.getSeconds()).padStart(2, '0');
+        } else {
+            timestamp.setHours(timestamp.getHours() + Number(habito.horas_intervalo))
+            nuevaFechaActualizacion = timestamp.getFullYear() + '-' +
+                String(timestamp.getMonth() + 1).padStart(2, '0') + '-' +
+                String(timestamp.getDate()).padStart(2, '0') + ' ' +
+                String(timestamp.getHours()).padStart(2, '0') + ':' +
+                String(timestamp.getMinutes()).padStart(2, '0') + ':' +
+                String(timestamp.getSeconds()).padStart(2, '0');
+        }
 
         const [update] = await connection.execute('UPDATE habitos SET fecha_nueva_actualizacion = ? WHERE id = ?', [nuevaFechaActualizacion, idHabito])
 
