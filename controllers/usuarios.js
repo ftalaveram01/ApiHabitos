@@ -39,7 +39,9 @@ export class UsuariosController {
             }
 
             const newUser = await this.usuarioModel.register({ input: usuario.data });
-            res.status(201).json(newUser);
+            res.status(201).json({
+                success: true
+            });
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
@@ -154,7 +156,7 @@ export class UsuariosController {
             const { password, newPassword } = req.body;
 
             const updatedUser = await this.usuarioModel.updatePassword(parseInt(id), { password, newPassword });
-            
+
             res.status(200).json({
                 success: true
             });
