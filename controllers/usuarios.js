@@ -31,6 +31,8 @@ export class UsuariosController {
 
     registerUser = async (req, res) => {
         try {
+
+            console.log(req.body)
             const usuario = validateUser(req.body);
 
             if (!usuario.success) {
