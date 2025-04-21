@@ -28,12 +28,12 @@ export class HabitoModel {
 
         const fecha = new Date(fechaInicio);
         fecha.setHours(fecha.getHours() + horasIntervalo)
-        const fecha_nueva_actualizacion = fecha.getFullYear() + '-' +
-            String(fecha.getMonth() + 1).padStart(2, '0') + '-' +
-            String(fecha.getDate()).padStart(2, '0') + ' ' +
-            String(fecha.getHours()).padStart(2, '0') + ':' +
-            String(fecha.getMinutes()).padStart(2, '0') + ':' +
-            String(fecha.getSeconds()).padStart(2, '0');
+        const fecha_nueva_actualizacion = fecha.getUTCFullYear() + '-' +
+            String(fecha.getUTCMonth() + 1).padStart(2, '0') + '-' +
+            String(fecha.getUTCDate()).padStart(2, '0') + ' ' +
+            String(fecha.getUTCHours()).padStart(2, '0') + ':' +
+            String(fecha.getUTCMinutes()).padStart(2, '0') + ':' +
+            String(fecha.getUTCSeconds()).padStart(2, '0');
 
         console.log(fecha_nueva_actualizacion)
         const creadoEnFormateado = new Date(creadoEn).toISOString().slice(0, 19).replace('T', ' ');
