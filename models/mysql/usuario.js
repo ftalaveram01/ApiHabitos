@@ -68,6 +68,14 @@ export class UsuarioModel {
             throw new Error('El usuario no existe');
         }
 
+        if (user.email != email) {
+            const [usersByEmail] = await connection.execute('SELECT * FROM usuarios WHERE email = ?', [email]);
+            const userByEmail = usersByEmail[0];
+            if (userByEmail) {
+                throw new Error('El correo que intenta utilizar ya está en uso');
+            }
+        }
+
         const [usuarioActualizado] = await connection.execute('UPDATE usuarios SET nombre = ?, email = ? WHERE id = ?', [nombre, email, id]);
         return usuarioActualizado;
     }
