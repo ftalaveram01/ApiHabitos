@@ -61,7 +61,7 @@ export class UsuarioModel {
 
     static async updateUser(id, { nombre, email }) {
 
-        const [users] = await connection.execute('SELECT * FROM usuarios WHERE email = ?', [email]);
+        const [users] = await connection.execute('SELECT * FROM usuarios WHERE id = ?', [id]);
         const user = users[0];
 
         if (!user) {
@@ -72,7 +72,7 @@ export class UsuarioModel {
         return usuarioActualizado;
     }
 
-    static async updatePassword( id, {password, newPassword}) {
+    static async updatePassword(id, { password, newPassword }) {
         const [users] = await connection.query('SELECT * FROM usuarios WHERE id = ?', [id]);
 
         if (users.length === 0) {
